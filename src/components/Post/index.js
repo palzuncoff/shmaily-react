@@ -15,10 +15,10 @@ export class Post extends Component {
     }
 
     render() {
-        const { caption, media, topic, pubDate } = this.props;
+        const { caption, media, topic, pubDate, key } = this.props;
         const { areCommentsOpen } = this.state;
         return (
-            <div>
+            <div key={key}>
                 <h1>{caption}</h1>
                 <h6>{pubDate}</h6>
                 {media && <div>{media}</div>}
@@ -43,6 +43,7 @@ export class Post extends Component {
 
 Post.propTypes = {
     caption: PropTypes.string,
+    key: PropTypes.string.isRequired,
     media: PropTypes.string,
     topic: PropTypes.string,
     pubDate: PropTypes.string.isRequired,
