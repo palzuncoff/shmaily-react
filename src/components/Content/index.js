@@ -22,7 +22,9 @@ export class Content extends Component {
 };
 
 Content.propTypes = {
-    posts: PropTypes.array.isRequired,
+    posts: PropTypes.arrayOf(
+        PropTypes.object
+    ).isRequired,
 };
 
 export default Content;

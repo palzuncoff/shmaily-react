@@ -21,7 +21,7 @@ export class Post extends Component {
             <div key={key}>
                 <h1>{caption}</h1>
                 <h6>{pubDate}</h6>
-                {media && <div>{media}</div>}
+                {media && <img src={media} />}
                 {topic && <div>{topic}</div>}
                 <input
                     type="button"
