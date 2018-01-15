@@ -6,15 +6,12 @@ import './index.css';
 export class CreatePostForm extends Component {
     state = {
         caption: '',
-        picture: null,
+        picture: '',
         body: '',
         coub: '',
         video: '',
         name: '',
         showModal: false,
-    };
-    handleCloseModal = () => {
-        this.props.hideModal();
     };
 
     handleShow = () => this.setState({ showModal: true });
