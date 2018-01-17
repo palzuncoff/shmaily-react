@@ -10,17 +10,16 @@ class App extends Component {
         const { posts } =this.props;
         return (
             <div>
-              <Header />
-              <section id="container">
-                <div className="wrapper">
-                  <div className="flex-wrap">
-                    <Content posts={posts} />
-                    <Sidebar />
-                  </div>
-                </div>
-              </section>
+                <Header />
+                <section id="container">
+                    <div className="wrapper">
+                        <div className="flex-wrap">
+                            <Content posts={posts} />
+                            <Sidebar />
+                        </div>
+                    </div>
+                </section>
             </div>
-
         );
     }
 }
