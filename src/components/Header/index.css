@@ -25,3 +25,25 @@
 .header-li {
   padding-left: 10px;
 }
+
+/* Responsive media queries
+/* ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## */
+
+/* Large devices (large desktops, 1200px and up) */
+@media (max-width: 1200px) {}
+
+/* Medium devices (desktops, 992px and up) */
+@media (max-width: 992px) {
+  .header-wrap {
+    display: block;
+  }
+  .header-nav {
+    padding-top: 30px;
+  }
+  .header-bt {
+    font-size: 12px;
+  }
+}
+
+/* Small devices (tablets, 768px and up) */
+@media (max-width: 768px) {}

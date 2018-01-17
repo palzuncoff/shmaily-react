@@ -13,3 +13,26 @@
 img {
   max-width: 100%;
 }
+
+/* Responsive media queries
+/* ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## */
+
+/* Large devices (large desktops, 1200px and up) */
+@media (max-width: 1200px) {
+  .wrapper {
+    width: 80%;
+  }
+}
+
+/* Medium devices (desktops, 992px and up) */
+@media (max-width: 992px) {
+  .wrapper {
+    width: 90%;
+  }
+  .flex-wrap {
+    flex-direction: column;
+  }
+}
+
+/* Small devices (tablets, 768px and up) */
+@media (max-width: 768px) {}
