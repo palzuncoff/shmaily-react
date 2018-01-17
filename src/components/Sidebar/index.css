@@ -2,3 +2,16 @@
   flex: 0 0 25%;
   box-sizing: border-box;
 }
+
+.nav {
+  float: right;
+}
+
+.nav__li {
+  line-height: 3;
+  list-style: none;
+}
+
+.nav__a {
+  text-transform: uppercase;
+}
