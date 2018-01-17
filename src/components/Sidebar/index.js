@@ -1,40 +1,29 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Link } from 'react-router-dom';
+import { CreatePostForm } from '../CreatePostForm';
 import './index.css';
 
 export class Sidebar extends Component {
-    state = {
-        links: [
-            {
-                name: 'Pictures',
-                url: '/pictures'
-            },
-            {
-                name: 'Videos',
-                url: '/videos'
-            },
-            {
-                name: 'Coubs',
-                url: '/coubs'
-            },
-            {
-                name: 'Articles',
-                url: '/articles'
-            },
-        ]
-    };
     render() {
         return (
             <div className="col-3">
                 <aside className="sidebar">
                     <nav className="nav">
+                        <CreatePostForm />
                         <Router>
                             <ul className="nav__list">
-                                {this.state.links.map(link =>
-                                    <li className="nav__li" key={link.name}>
-                                        <Link to={link.url} className="nav__a">{link.name}</Link>
-                                    </li>
-                                )}
+                                <li className="nav__li">
+                                    <Link to="/pictures" className="nav__a">Pictures</Link>
+                                </li>
+                                <li className="nav__li">
+                                    <Link to="/videos" className="nav__a">Videos</Link>
+                                </li>
+                                <li className="nav__li">
+                                    <Link to="/coubs" className="nav__a">Coubs</Link>
+                                </li>
+                                <li className="nav__li">
+                                    <Link to="/articles" className="nav__a">Articles</Link>
+                                </li>
                             </ul>
                         </Router>
                     </nav>

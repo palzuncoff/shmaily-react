@@ -29,9 +29,7 @@ export class CreatePostForm extends Component {
         const { caption, picture, body, coub, video, name } = this.state;
         return (
             <div>
-                <Button bsStyle="primary" bsSize="large" onClick={this.handleShow}>
-                    Show Create Post Form
-                </Button>
+                <button onClick={this.handleShow}>Show Create Post Form</button>
                 <Modal show={this.state.showModal} onHide={this.handleClose}>
                     <Modal.Header closeButton>
                         <Modal.Title>Create Post</Modal.Title>

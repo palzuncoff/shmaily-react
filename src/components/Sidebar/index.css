@@ -7,6 +7,10 @@
   float: right;
 }
 
+.nav__list {
+  float: right;
+}
+
 .nav__li {
   line-height: 3;
   list-style: none;
