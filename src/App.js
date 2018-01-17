@@ -11,10 +11,15 @@ class App extends Component {
         return (
             <div>
                 <Header />
-                <Sidebar />
-                <Content posts={posts} />
+                <section id="container">
+                    <div className="wrapper">
+                        <div className="flex-wrap">
+                            <Content posts={posts} />
+                            <Sidebar />
+                        </div>
+                    </div>
+                </section>
             </div>
-
         );
     }
 }

@@ -1,0 +1,15 @@
+/* Global
+/* ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## */
+
+.wrapper {
+  width: 900px;
+  margin: 0 auto;
+}
+
+.flex-wrap {
+  display: flex;
+}
+
+img {
+  max-width: 100%;
+}

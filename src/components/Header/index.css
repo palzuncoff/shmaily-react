@@ -1,0 +1,37 @@
+.header {
+  padding: 40px 0;
+}
+
+.header-wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.logo {
+  display: inline-block;
+}
+
+.logo-img {
+  width: 300px;
+}
+
+.header-list {
+  display: flex;
+  list-style: none;
+}
+
+.header-li {
+  padding-left: 10px;
+}
+
+.header-bt {
+  color: #333;
+  background: #eee;
+  border: 1px solid #ccc;
+  padding: 0 10px;
+  font-size: 15px;
+  border-radius: 3px;
+  cursor: pointer;
+}

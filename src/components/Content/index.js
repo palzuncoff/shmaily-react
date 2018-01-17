@@ -7,8 +7,7 @@ export class Content extends Component {
     render() {
         const { posts } = this.props;
         return (
-            <div>
-                <h1>Content</h1>
+            <div className="col-9">
                 {posts.map(post => <Post
                     key={post.id}
                     caption={post.caption}
