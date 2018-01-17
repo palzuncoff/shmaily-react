@@ -5,7 +5,9 @@ import './index.css';
 export class Header extends Component {
     render() {
         return (
-            <div>
+            <header className="header">
+            <div className="wrapper">
+              <div className="header-wrap">
                 <h1>Header</h1>
                 <Button bsStyle="primary" bsSize="large" onClick={this.handleShow}>
                     From Down
@@ -16,7 +18,9 @@ export class Header extends Component {
                 <Button bsStyle="primary" bsSize="large" onClick={this.handleShow}>
                     From Shuffle
                 </Button>
+              </div>
             </div>
+          </header>
         );
     };
 };

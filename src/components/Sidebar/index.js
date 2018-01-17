@@ -5,7 +5,7 @@ import { CreatePostForm } from '../CreatePostForm';
 export class Sidebar extends Component {
     render() {
         return (
-            <div>
+            <div className="col-3">
                 <h1>Sidebar</h1>
                 <CreatePostForm />
             </div>
