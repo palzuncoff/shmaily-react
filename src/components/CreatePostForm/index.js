@@ -1,16 +1,21 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import uuid from 'uuid/v1';
 import { Modal, Button } from 'react-bootstrap';
 import './index.css';
+import { PostModel, fire } from '../../utils';
 
 export class CreatePostForm extends Component {
     state = {
-        caption: '',
-        picture: '',
-        body: '',
-        coub: '',
-        video: '',
-        name: '',
+        post: {
+            title: null,
+            pictures: [],
+            body: null,
+            coubs: [],
+            videos: [],
+            author: null,
+            date: new Date().toDateString(),
+        },
         showModal: false,
     };
 
@@ -25,8 +30,16 @@ export class CreatePostForm extends Component {
         console.log({ picture: this.fileInput.files[0].name})
     };
 
+    handleOnSubmit = (e) => {
+        const { post } = this.state;
+        e.preventDefault();
+        return fire.database().ref('posts/').push({
+            ...post,
+        });
+    };
+
     render() {
-        const { caption, picture, body, coub, video, name } = this.state;
+        const { post: { title, body, coubs, pictures, videos, author } } = this.state;
         return (
             <div>
                 <button onClick={this.handleShow}>Show Create Post Form</button>
@@ -38,24 +51,24 @@ export class CreatePostForm extends Component {
                         <form action="">
                             <ul className="form-style-1">
                                 <li>
-                                    <label htmlFor="caption">Caption</label>
+                                    <label htmlFor="caption">Title</label>
                                     <input
                                         className="field-long"
                                         id="caption"
                                         type="text"
                                         name="caption"
-                                        value={caption}
+                                        value={title}
                                         onChange={event => this.handleOnChangeTextInput(event, 'caption')}
                                     />
                                 </li>
                                 <li>
-                                    <label htmlFor="picture">Picture</label>
+                                    <label htmlFor="picture">Pictures</label>
                                     <input
                                         name="picture"
                                         id="picture"
                                         type="file"
                                         className="field-img"
-                                        value={picture}
+                                        value={pictures}
                                         onChange={this.handleOnUploadImg}
                                         ref={input => {
                                             this.fileInput = input;
@@ -75,40 +88,40 @@ export class CreatePostForm extends Component {
                                     />
                                 </li>
                                 <li>
-                                    <label htmlFor="video">Link for Video</label>
+                                    <label htmlFor="video">Links for Video</label>
                                     <input
                                         className="field-long"
                                         type="text"
                                         name="video"
                                         id="video"
-                                        value={video}
+                                        value={videos}
                                         onChange={event => this.handleOnChangeTextInput(event, 'video')}
                                     />
                                 </li>
                                 <li>
-                                    <label htmlFor="coub">Link for Coub</label>
+                                    <label htmlFor="coub">Links for Coub</label>
                                     <input
                                         className="field-long"
                                         type="text"
                                         id="coub"
                                         name="coub"
-                                        value={coub}
+                                        value={coubs}
                                         onChange={event => this.handleOnChangeTextInput(event, 'coub')}
                                     />
                                 </li>
                                 <li>
-                                    <label htmlFor="coub">Name</label>
+                                    <label htmlFor="coub">Author</label>
                                     <input
                                         className="field-long"
                                         type="text"
                                         id="name"
                                         name="name"
-                                        value={name}
+                                        value={author}
                                         onChange={event => this.handleOnChangeTextInput(event, 'name')}
                                     />
                                 </li>
                                 <li>
-                                    <input type="submit" value="ADD" onClick={(console.log('OK'))}/>
+                                    <input type="submit" value="ADD" onClick={this.handleOnSubmit}/>
                                 </li>
                             </ul>
                         </form>
