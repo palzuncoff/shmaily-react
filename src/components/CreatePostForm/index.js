@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import uuid from 'uuid/v1';
 import { Modal, Button } from 'react-bootstrap';
 import './index.css';
-import { PostModel, fire } from '../../utils';
+import { addPost } from '../../utils';
 
 export class CreatePostForm extends Component {
     state = {
@@ -33,7 +33,7 @@ export class CreatePostForm extends Component {
     handleOnSubmit = (e) => {
         const { post } = this.state;
         e.preventDefault();
-        return fire.database().ref('posts/').push({
+        return addPost.push({
             ...post,
         });
     };
