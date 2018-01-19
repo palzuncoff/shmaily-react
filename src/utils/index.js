@@ -9,4 +9,13 @@ const config = {
     messagingSenderId: '943435953686',
 };
 
-export const db = firebase.initializeApp(config);
+export const fire = firebase.initializeApp(config);
+
+export const PostModel = {
+    author: '',
+    title: 'first-post-title',
+    body: 'body',
+    pictures: ['url/img.jpg', ],
+    videos: [],
+    coubs: [],
+};
