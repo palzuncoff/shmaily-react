@@ -1,15 +1,17 @@
 import firebase from 'firebase';
 
 const config = {
-    apiKey: 'AIzaSyDUaWvDy5yaRSiZiiX0qdjqaTkzh5YVi7A',
-    authDomain: 'shmaily-3bc12.firebaseapp.com',
-    databaseURL: 'https://shmaily-3bc12.firebaseio.com',
-    projectId: 'shmaily-3bc12',
-    storageBucket: 'shmaily-3bc12.appspot.com',
-    messagingSenderId: '943435953686',
+    apiKey: process.env.REACT_APP_API_KEY,
+    authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+    databaseURL: process.env.REACT_APP_DB_URL,
+    projectId: process.env.REACT_APP_PROJECT_ID,
+    storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+    messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
 };
 
-export const fire = firebase.initializeApp(config);
+const fire = firebase.initializeApp(config);
+
+export const addPost = fire.database().ref('posts/');
 
 export const PostModel = {
     author: '',
