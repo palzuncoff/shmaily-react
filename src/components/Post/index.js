@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactDisqusComments from 'react-disqus-comments';
-import uuid from 'uuid/v1';
 import './index.css';
 
 export class Post extends Component {
