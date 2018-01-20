@@ -10,7 +10,10 @@ export class Content extends Component {
 
     componentWillMount(){
         getPostList.on('child_added', snapshot => {
-            const post = { text: snapshot.val(), id: snapshot.key };
+            const post = {
+                id: snapshot.key,
+                ...snapshot.val(),
+            };
             this.setState({ posts: [post].concat(this.state.posts) });
         });
     };

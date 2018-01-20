@@ -14,6 +14,7 @@ export class CreatePostForm extends Component {
             videos: [],
             author: '',
             date: new Date().toDateString(),
+            sistemDate: new Date(),
         },
         showModal: false,
     };
