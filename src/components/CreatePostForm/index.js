@@ -23,11 +23,16 @@ export class CreatePostForm extends Component {
 
     handleClose = () => this.setState({ showModal: false });
 
-    handleOnChangeTextInput = (event, field) => this.setState({ [field]: event.target.value});
+    handleOnChangeTextInput = (event, field) => this.setState({ [field]: event.target.value });
 
     handleOnUploadImg = value => {
         value.preventDefault();
         console.log({ picture: this.fileInput.files[0].name})
+    };
+
+    handleAddUrl = (event, field) => {
+        const urls = this.state[field].push(event.target.value);
+        this.setState({ [field]: urls });
     };
 
     handleOnSubmit = (e) => {
