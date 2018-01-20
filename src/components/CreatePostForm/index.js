@@ -1,19 +1,18 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import uuid from 'uuid/v1';
+import randomString from 'random-string';
 import { Modal, Button } from 'react-bootstrap';
 import './index.css';
-import { addPost } from '../../utils';
+import { db } from '../../utils';
 
 export class CreatePostForm extends Component {
     state = {
         post: {
-            title: null,
+            title: '',
             pictures: [],
-            body: null,
+            body: '',
             coubs: [],
             videos: [],
-            author: null,
+            author: '',
             date: new Date().toDateString(),
         },
         showModal: false,
@@ -33,7 +32,7 @@ export class CreatePostForm extends Component {
     handleOnSubmit = (e) => {
         const { post } = this.state;
         e.preventDefault();
-        return addPost.push({
+        return db.push({
             ...post,
         });
     };
@@ -134,13 +133,3 @@ export class CreatePostForm extends Component {
         );
     };
 };
-
-CreatePostForm.propTypes = {
-    show: PropTypes.bool,
-};
-
-CreatePostForm.defaultProps = {
-    show: false,
-};
-
-export default CreatePostForm;
