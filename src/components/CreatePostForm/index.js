@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import randomString from 'random-string';
 import { Modal, Button } from 'react-bootstrap';
+import randomString from 'random-string';
 import './index.css';
 import { db } from '../../utils';
+
+const errorMessage = 'ERROR';
 
 export class CreatePostForm extends Component {
     state = {
@@ -14,16 +16,16 @@ export class CreatePostForm extends Component {
             videos: [],
             author: '',
             date: new Date().toDateString(),
-            sistemDate: new Date(),
         },
         showModal: false,
+        error: false,
     };
 
     handleShow = () => this.setState({ showModal: true });
 
     handleClose = () => this.setState({ showModal: false });
 
-    handleOnChangeTextInput = (event, field) => this.setState({ [field]: event.target.value });
+    handleOnChangeTextInput = (event, field) => this.setState({ post: { [field]: event.target.value } });
 
     handleOnUploadImg = value => {
         value.preventDefault();
@@ -31,16 +33,29 @@ export class CreatePostForm extends Component {
     };
 
     handleAddUrl = (event, field) => {
-        const urls = this.state[field].push(event.target.value);
-        this.setState({ [field]: urls });
+        const urls = this.state.post[field];
+        urls.push(event.target.value);
+        this.setState({ post: { [field]: urls } });
     };
 
     handleOnSubmit = (e) => {
         const { post } = this.state;
         e.preventDefault();
-        return db.push({
-            ...post,
-        });
+        return db.push({ ...post })
+            .then(() => {
+                const clearPost = {
+                    title: '',
+                    pictures: [],
+                    body: '',
+                    coubs: [],
+                    videos: [],
+                    author: '',
+                    date: new Date().toDateString(),
+                    sistemDate: new Date(),
+                };
+                return this.setState({ post: clearPost })
+            })
+            .catch(() => this.setState({ error: true }));
     };
 
     render() {
@@ -63,7 +78,7 @@ export class CreatePostForm extends Component {
                                         type="text"
                                         name="caption"
                                         value={title}
-                                        onChange={event => this.handleOnChangeTextInput(event, 'caption')}
+                                        onChange={event => this.handleOnChangeTextInput(event, 'title')}
                                     />
                                 </li>
                                 <li>
@@ -100,7 +115,7 @@ export class CreatePostForm extends Component {
                                         name="video"
                                         id="video"
                                         value={videos}
-                                        onChange={event => this.handleOnChangeTextInput(event, 'video')}
+                                        onChange={event => this.handleAddUrl(event, 'video')}
                                     />
                                 </li>
                                 <li>
@@ -111,7 +126,7 @@ export class CreatePostForm extends Component {
                                         id="coub"
                                         name="coub"
                                         value={coubs}
-                                        onChange={event => this.handleOnChangeTextInput(event, 'coub')}
+                                        onChange={event => this.handleAddUrl(event, 'coub')}
                                     />
                                 </li>
                                 <li>
@@ -122,7 +137,7 @@ export class CreatePostForm extends Component {
                                         id="name"
                                         name="name"
                                         value={author}
-                                        onChange={event => this.handleOnChangeTextInput(event, 'name')}
+                                        onChange={event => this.handleOnChangeTextInput(event, 'author')}
                                     />
                                 </li>
                                 <li>

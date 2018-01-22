@@ -11,15 +11,15 @@ const fire = firebase.initializeApp({
 
 export const db = fire.database().ref('posts/');
 
+export const storageRef = fire.storage().ref();
+
 export const getPostList = db.orderByKey().limitToLast(10);
 
 export const getPost = postId => fire.database().ref(`posts/${postId}`);
 
-export const PostModel = {
-    author: '',
-    title: 'first-post-title',
-    body: 'body',
-    pictures: ['url/img.jpg', ],
-    videos: [],
-    coubs: [],
+export const metadata = fileName => {
+    const extension = fileName.split('.').reverse()[0];
+    return {
+        contentType: `image/${extension}`,
+    };
 };
