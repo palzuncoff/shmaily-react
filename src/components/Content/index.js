@@ -1,11 +1,26 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import './index.css';
 import { Post } from '../Post';
+import { getPostList } from '../../utils';
 
 export class Content extends Component {
+    state = {
+        posts: [],
+    };
+
+    componentWillMount(){
+        getPostList.on('child_added', snapshot => {
+            const post = {
+                id: snapshot.key,
+                ...snapshot.val(),
+            };
+            this.setState({ posts: [post].concat(this.state.posts) });
+        });
+    };
+
     render() {
-        const { posts } = this.props;
+        const { posts } = this.state;
+        console.log(posts);
         return (
             <div className="col-9">
                 {posts.map(post => <Post
@@ -19,11 +34,3 @@ export class Content extends Component {
         );
     }
 };
-
-Content.propTypes = {
-    posts: PropTypes.arrayOf(
-        PropTypes.object
-    ).isRequired,
-};
-
-export default Content;
