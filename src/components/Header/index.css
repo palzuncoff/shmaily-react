@@ -26,6 +26,16 @@
   padding-left: 10px;
 }
 
+.header-bt {
+  background-color: #f2f2f2;
+  border-radius: 4px;
+  color: #505050;
+  padding: 5px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+}
+
 /* Responsive media queries
 /* ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## */
 

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import randomString from 'random-string';
 import './index.css';
-import { db } from '../../utils';
+import { db, uploadImg } from '../../utils';
 
 const errorMessage = 'ERROR';
 
@@ -29,7 +29,11 @@ export class CreatePostForm extends Component {
 
     handleOnUploadImg = value => {
         value.preventDefault();
-        console.log({ picture: this.fileInput.files[0].name})
+        const post = { ...this.state.post };
+        const picture = uploadImg(this.fileInput.files[0])
+        post.pictures.push(picture);
+        this.setState({ post });
+        console.log(picture)
     };
 
     handleAddUrl = (event, field) => {
@@ -62,93 +66,76 @@ export class CreatePostForm extends Component {
         const { post: { title, body, coubs, pictures, videos, author } } = this.state;
         return (
             <div>
-                <button onClick={this.handleShow}>Show Create Post Form</button>
+                <button onClick={this.handleShow}>Create Post</button>
                 <Modal show={this.state.showModal} onHide={this.handleClose}>
                     <Modal.Header closeButton>
                         <Modal.Title>Create Post</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <form action="">
-                            <ul className="form-style-1">
-                                <li>
-                                    <label htmlFor="caption">Title</label>
+                        <form action="" className="form">
+                            <ul className="form__list">
+                                <li className="form__li">
                                     <input
-                                        className="field-long"
-                                        id="caption"
-                                        type="text"
-                                        name="caption"
-                                        value={title}
-                                        onChange={event => this.handleOnChangeTextInput(event, 'title')}
-                                    />
-                                </li>
-                                <li>
-                                    <label htmlFor="picture">Pictures</label>
-                                    <input
-                                        name="picture"
-                                        id="picture"
-                                        type="file"
-                                        className="field-img"
-                                        value={pictures}
-                                        onChange={this.handleOnUploadImg}
-                                        ref={input => {
-                                            this.fileInput = input;
-                                        }}
-                                    />
-                                </li>
-                                <li>
-                                    <label htmlFor="body">Body</label>
-                                    <textarea
-                                        className="field-long field-textarea"
-                                        name="body"
-                                        id="body"
-                                        cols="30"
-                                        rows="10"
-                                        value={body}
-                                        onChange={event => this.handleOnChangeTextInput(event, 'body')}
-                                    />
-                                </li>
-                                <li>
-                                    <label htmlFor="video">Links for Video</label>
-                                    <input
-                                        className="field-long"
-                                        type="text"
-                                        name="video"
-                                        id="video"
-                                        value={videos}
-                                        onChange={event => this.handleAddUrl(event, 'video')}
-                                    />
-                                </li>
-                                <li>
-                                    <label htmlFor="coub">Links for Coub</label>
-                                    <input
-                                        className="field-long"
-                                        type="text"
-                                        id="coub"
-                                        name="coub"
-                                        value={coubs}
-                                        onChange={event => this.handleAddUrl(event, 'coub')}
-                                    />
-                                </li>
-                                <li>
-                                    <label htmlFor="coub">Author</label>
-                                    <input
-                                        className="field-long"
+                                        placeholder="Your Name"
+                                        className="form__input"
                                         type="text"
                                         id="name"
                                         name="name"
-                                        value={author}
-                                        onChange={event => this.handleOnChangeTextInput(event, 'author')}
+                                        onChange={event => this.handleOnChangeTextInput(event, 'name')}
                                     />
                                 </li>
-                                <li>
-                                    <input type="submit" value="ADD" onClick={this.handleOnSubmit}/>
+                                <li className="form__li">
+                                    <input
+                                        placeholder="Title"
+                                        className="form__input"
+                                        id="caption"
+                                        type="text"
+                                        name="caption"
+                                        onChange={event => this.handleOnChangeTextInput(event, 'caption')}
+                                    />
+                                </li>
+                                <li className="form__li">
+                                    <ul className="form-bt">
+                                        <li className="form-bt__li">
+                                            <button className="form-bt__bt form-bt__bt--img">Add image</button>
+                                        </li>
+                                        <li className="form-bt__li">
+                                            <button className="form-bt__bt form-bt__bt--youtube">Add video</button>
+                                        </li>
+                                        <li className="form-bt__li">
+                                            <button className="form-bt__bt form-bt__bt--coub">Add coub</button>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li className="form__li">
+                                    <textarea
+                                        placeholder="Description"
+                                        className="form__textarea"
+                                        name="body"
+                                        id="body"
+                                        rows="3"
+                                        onChange={event => this.handleOnChangeTextInput(event, 'body')}
+                                    />
+                                </li>
+                                <li className="form__li">
+                                    <input
+                                        type="submit"
+                                        value="Create Post"
+                                        className="form__button-add-post"
+                                    />
                                 </li>
                             </ul>
+                            <input
+                                type="file"
+                                name="pic"
+                                accept="image/*"
+                                onChange={this.handleOnUploadImg}
+                                ref={input => {
+                                    this.fileInput = input;
+                                }}
+                            />
                         </form>
                     </Modal.Body>
-                    <Modal.Footer>
-                        <Button onClick={this.handleClose}>Close</Button>
-                    </Modal.Footer>
                 </Modal>
             </div>
         );
