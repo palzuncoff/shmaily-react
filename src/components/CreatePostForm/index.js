@@ -243,15 +243,6 @@ export class CreatePostForm extends Component {
                                     />
                                 </li>
                             </ul>
-                            <input
-                                type="file"
-                                name="pic"
-                                accept="image/*"
-                                onChange={this.handleOnUploadImg}
-                                ref={input => {
-                                    this.fileInput = input;
-                                }}
-                            />
                         </form>
                     </Modal.Body>
                 </Modal>
