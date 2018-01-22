@@ -6,15 +6,15 @@
     position: relative;
 }
 
-.list-input__li {
-    padding-bottom: 10px;
+.list-input {
     position: relative;
+    padding: 10px 0 0 25px;
 }
 
 .form__input--add {
     position: absolute;
-    left: -20px;
-    top: 7px;
+    left: 0;
+    top: 17px;
     background: transparent;
     border: none;
     font-size: 20px;
@@ -28,7 +28,7 @@
 
 .form__input--delete {
     position: absolute;
-    top: 7px;
+    top: 15px;
     right: 10px;
     font-size: 20px;
     background: transparent;
@@ -106,10 +106,6 @@
     outline: none;
     opacity: .8;
     transition: opacity 0.3s ease;
-}
-
-.list-inputs {
-    padding: 10px 0 0 25px;
 }
 
 .form-bt__bt:hover {
