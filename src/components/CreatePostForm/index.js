@@ -3,73 +3,31 @@ import PropTypes from 'prop-types';
 import { Modal } from 'react-bootstrap';
 import './index.css';
 
+const mocPictures = [
+  'img name',
+  'img name lorem ipsum.',
+  'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repudiandae, in, iusto.'
+];
+const mocVideo = [
+  'https://www.youtube.com/watch?v=eTFy8RnUkoU', 'https://www.youtube.com/watch?v=8NQ-Bk63Hs8&list=RDMM8NQ-Bk63Hs8'
+];
+const mocCoub = [
+  'http://coub.com/view/112jn8',
+  'http://coub.com/view/10uoin'
+];
+
 export class CreatePostForm extends Component {
     state = {
+      post: {
+            title: '',
+            pictures: [],
+            body: '',
+            coubs: [],
+            videos: [],
+            author: '',
+            date: new Date().toDateString(),
+        },
         showModal: false,
-        listInputs: [
-            {
-                i: 1,
-                btAdd: '+',
-                placeholder: 'YouTube',
-                type: 'text',
-                name: 'video',
-                id: 'video',
-                btDelete: 'x'
-            },
-            {
-                i: 2,
-                btAdd: '+',
-                placeholder: 'Coub',
-                type: 'text',
-                name: 'coub',
-                id: 'coub',
-                btDelete: 'x'
-            }
-        ],
-        listItems: [
-            {
-                i: 1,
-                title: 'Lorem ipsum.',
-                btDelete: 'x',
-                icon: 'items__icon items__icon--img',
-            },
-            {
-                i: 2,
-                title: 'Lorem.',
-                btDelete: 'x',
-                icon: 'items__icon items__icon--img',
-            },
-            {
-                i: 3,
-                title: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repudiandae, in, iusto.',
-                btDelete: 'x',
-                icon: 'items__icon items__icon--img',
-            },
-            {
-                i: 4,
-                title: 'https://www.youtube.com/watch?v=eTFy8RnUkoU',
-                btDelete: 'x',
-                icon: 'items__icon items__icon--youtube',
-            },
-            {
-                i: 5,
-                title: 'https://www.youtube.com/watch?v=8NQ-Bk63Hs8&list=RDMM8NQ-Bk63Hs8.',
-                btDelete: 'x',
-                icon: 'items__icon items__icon--youtube',
-            },
-            {
-                i: 6,
-                title: 'http://coub.com/view/112jn8',
-                btDelete: 'x',
-                icon: 'items__icon items__icon--coub',
-            },
-            {
-                i: 7,
-                title: 'http://coub.com/view/10uoin',
-                btDelete: 'x',
-                icon: 'items__icon items__icon--coub',
-            }
-        ]
     };
 
     handleShow = () => this.setState({ showModal: true });
@@ -115,6 +73,8 @@ export class CreatePostForm extends Component {
                                     />
                                 </li>
                                 <li className="form__li">
+
+                                    {/* Buttons */}
                                     <ul className="form-bt">
                                         <li className="form-bt__li">
                                             <button className="form-bt__bt form-bt__bt--img">Add image</button>
@@ -126,32 +86,50 @@ export class CreatePostForm extends Component {
                                             <button className="form-bt__bt form-bt__bt--coub">Add coub</button>
                                         </li>
                                     </ul>
-                                    <ul className="list-inputs">
-                                        {this.state.listInputs.map(input =>
-                                            <li className="list-input__li" key={input.i}>
-                                                <button className="form__input--add">{input.btAdd}</button>
-                                                <input
-                                                    placeholder={input.placeholder}
-                                                    className="form__input form__input--youtube"
-                                                    type={input.type}
-                                                    name={input.name}
-                                                    id={input.id}
-                                                    onChange={event => this.handleOnChangeTextInput(event, 'video')}
-                                                />
-                                                <button className="form__input--delete">{input.btDelete}</button>
-                                            </li>
-                                        )}
-                                    </ul>
+
+                                    {/* Add Inputs */}
+                                    <div className="list-input">
+                                        <button className="form__input--add">+</button>
+                                        <input
+                                            placeholder="add"
+                                            className="form__input"
+                                            type="text"
+                                            name="name"
+                                            id="testId"
+                                            onChange={event => this.handleOnChangeTextInput(event, 'video')}
+                                        />
+                                        <button className="form__input--delete">x</button>
+                                    </div>
+
+                                    {/* List Items */}
                                     <ul className="list-items">
-                                        {this.state.listItems.map(item =>
-                                            <li className="items__li" key={item.i}>
-                                                <div className="items__item">
-                                                    <span className={item.icon}>&nbsp;</span>
-                                                    <p className="items__title">{item.title}</p>
-                                                    <button className="items__delete">{item.btDelete}</button>
-                                                </div>
-                                            </li>
-                                        )}
+                                      {mocPictures.map(pitures => (
+                                        <li className="items__li">
+                                            <div className="items__item">
+                                                <span className="items__icon items__icon--img">&nbsp;</span>
+                                                <p className="items__title">{pitures}</p>
+                                                <button className="items__delete">x</button>
+                                            </div>
+                                        </li>
+                                      ))}
+                                      {mocVideo.map(videos => (
+                                        <li className="items__li">
+                                            <div className="items__item">
+                                                <span className="items__icon items__icon--youtube">&nbsp;</span>
+                                                <p className="items__title">{videos}</p>
+                                                <button className="items__delete">x</button>
+                                            </div>
+                                        </li>
+                                      ))}
+                                      {mocCoub.map(coubs => (
+                                        <li className="items__li">
+                                            <div className="items__item">
+                                                <span className="items__icon items__icon--coub">&nbsp;</span>
+                                                <p className="items__title">{coubs}</p>
+                                                <button className="items__delete">x</button>
+                                            </div>
+                                        </li>
+                                      ))}
                                     </ul>
                                 </li>
                                 <li className="form__li">
