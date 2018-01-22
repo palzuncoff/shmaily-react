@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Modal } from 'react-bootstrap';
+import Rodal from 'rodal';
+import 'rodal/lib/rodal.css';
 import './index.css';
 import { db, uploadImg } from '../../utils';
 
@@ -121,109 +122,105 @@ export class CreatePostForm extends Component {
     };
 
     render() {
-        const { showUrlInput, picturesPreview, post: { title, body, coubs, videos, author } } = this.state;
+        const { showUrlInput, picturesPreview, post: { title, body, coubs, videos, author }, showModal } = this.state;
         return (
             <div>
                 <button onClick={this.handleShow}>Create Post</button>
-                <Modal show={this.state.showModal} onHide={this.handleClose}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Create Post</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <form action="" className="form">
-                            <ul className="form__list">
-                                <li className="form__li">
-                                    <input
-                                        placeholder="Your Name"
-                                        className="form__input"
-                                        type="text"
-                                        id="name"
-                                        name="name"
-                                        value={author}
-                                        onChange={event => this.handleOnChangeTextInput(event, 'author')}
-                                    />
-                                </li>
-                                <li className="form__li">
-                                    <input
-                                        placeholder="Title"
-                                        className="form__input"
-                                        id="caption"
-                                        type="text"
-                                        name="caption"
-                                        value={title}
-                                        onChange={event => this.handleOnChangeTextInput(event, 'title')}
-                                    />
-                                </li>
-                                <li className="form__li">
+                <Rodal visible={showModal} onClose={() => this.setState({ showModal: false })}>
+                    <form action="" className="form">
+                        <ul className="form__list">
+                            <li className="form__li">
+                                <input
+                                    placeholder="Your Name"
+                                    className="form__input"
+                                    type="text"
+                                    id="name"
+                                    name="name"
+                                    value={author}
+                                    onChange={event => this.handleOnChangeTextInput(event, 'author')}
+                                />
+                            </li>
+                            <li className="form__li">
+                                <input
+                                    placeholder="Title"
+                                    className="form__input"
+                                    id="caption"
+                                    type="text"
+                                    name="caption"
+                                    value={title}
+                                    onChange={event => this.handleOnChangeTextInput(event, 'title')}
+                                />
+                            </li>
+                            <li className="form__li">
 
-                                    {/* Buttons */}
-                                    <ul className="form-bt">
-                                        <li className="form-bt__li">
-                                            <input
-                                                className="form-bt__bt form-bt__bt--img"
-                                                type="file"
-                                                name="pic"
-                                                accept="image/*"
-                                                onChange={this.handleOnUploadImg}
-                                                ref={input => {
-                                                    this.fileInput = input;
-                                                }}
-                                            />
-                                        </li>
-                                        <li className="form-bt__li">
-                                            <button
-                                                type="button"
-                                                className="form-bt__bt form-bt__bt--youtube"
-                                                onClick={() => this.handleShowUrlInput('currentVideo')}
-                                            >Add video</button>
-                                        </li>
-                                        <li className="form-bt__li">
-                                            <button
-                                                className="form-bt__bt form-bt__bt--coub"
-                                                type="button"
-                                                onClick={() => this.handleShowUrlInput('currentCoub')}
-                                            >Add coub</button>
-                                        </li>
-                                    </ul>
+                                {/* Buttons */}
+                                <ul className="form-bt">
+                                    <li className="form-bt__li">
+                                        <input
+                                            className="form-bt__bt form-bt__bt--img"
+                                            type="file"
+                                            name="pic"
+                                            accept="image/*"
+                                            onChange={this.handleOnUploadImg}
+                                            ref={input => {
+                                                this.fileInput = input;
+                                            }}
+                                        />
+                                    </li>
+                                    <li className="form-bt__li">
+                                        <button
+                                            type="button"
+                                            className="form-bt__bt form-bt__bt--youtube"
+                                            onClick={() => this.handleShowUrlInput('currentVideo')}
+                                        >Add video</button>
+                                    </li>
+                                    <li className="form-bt__li">
+                                        <button
+                                            className="form-bt__bt form-bt__bt--coub"
+                                            type="button"
+                                            onClick={() => this.handleShowUrlInput('currentCoub')}
+                                        >Add coub</button>
+                                    </li>
+                                </ul>
 
-                                    {/* Add Input */}
-                                    {showUrlInput && this.renderInput()}
-                                    {/* List Items */}
-                                    <ul className="list-items">
-                                        {picturesPreview.map(piture => (
-                                            <li className="items__li">
-                                                <div className="items__item">
-                                                    <span className="items__icon items__icon--img">&nbsp;</span>
-                                                    <p className="items__title">{piture}</p>
-                                                    <button className="items__delete">x</button>
-                                                </div>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                    <ul className="list-items">
-                                        {videos.map(video => (
-                                            <li className="items__li">
-                                                <div className="items__item">
-                                                    <span className="items__icon items__icon--youtube">&nbsp;</span>
-                                                    <p className="items__title">{video}</p>
-                                                    <button className="items__delete">x</button>
-                                                </div>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                    <ul className="list-items">
-                                        {coubs.map(coub => (
-                                            <li className="items__li">
-                                                <div className="items__item">
-                                                    <span className="items__icon items__icon--coub">&nbsp;</span>
-                                                    <p className="items__title">{coub}</p>
-                                                    <button className="items__delete">x</button>
-                                                </div>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </li>
-                                <li className="form__li">
+                                {/* Add Input */}
+                                {showUrlInput && this.renderInput()}
+                                {/* List Items */}
+                                <ul className="list-items">
+                                    {picturesPreview.map(piture => (
+                                        <li className="items__li">
+                                            <div className="items__item">
+                                                <span className="items__icon items__icon--img">&nbsp;</span>
+                                                <p className="items__title">{piture}</p>
+                                                <button className="items__delete">x</button>
+                                            </div>
+                                        </li>
+                                    ))}
+                                </ul>
+                                <ul className="list-items">
+                                    {videos.map(video => (
+                                        <li className="items__li">
+                                            <div className="items__item">
+                                                <span className="items__icon items__icon--youtube">&nbsp;</span>
+                                                <p className="items__title">{video}</p>
+                                                <button className="items__delete">x</button>
+                                            </div>
+                                        </li>
+                                    ))}
+                                </ul>
+                                <ul className="list-items">
+                                    {coubs.map(coub => (
+                                        <li className="items__li">
+                                            <div className="items__item">
+                                                <span className="items__icon items__icon--coub">&nbsp;</span>
+                                                <p className="items__title">{coub}</p>
+                                                <button className="items__delete">x</button>
+                                            </div>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </li>
+                            <li className="form__li">
                                     <textarea
                                         placeholder="Description"
                                         className="form__textarea"
@@ -233,19 +230,18 @@ export class CreatePostForm extends Component {
                                         value={body}
                                         onChange={event => this.handleOnChangeTextInput(event, 'body')}
                                     />
-                                </li>
-                                <li className="form__li">
-                                    <input
-                                        type="submit"
-                                        value="Create Post"
-                                        className="form__button-add-post"
-                                        onClick={this.handleOnSubmit}
-                                    />
-                                </li>
-                            </ul>
-                        </form>
-                    </Modal.Body>
-                </Modal>
+                            </li>
+                            <li className="form__li">
+                                <input
+                                    type="submit"
+                                    value="Create Post"
+                                    className="form__button-add-post"
+                                    onClick={this.handleOnSubmit}
+                                />
+                            </li>
+                        </ul>
+                    </form>
+                </Rodal>
             </div>
         );
     };
