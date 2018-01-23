@@ -157,11 +157,12 @@ export class CreatePostForm extends Component {
                                 {/* Buttons */}
                                 <ul className="form-bt">
                                     <li className="form-bt__li">
-                                        <label className="form-bt__bt form-bt__bt--img">
+                                        <label htmlFor="label" className="form-bt__bt form-bt__bt--img">
                                             Choose file
                                             <input
                                                 className="form-bt__file-upload"
                                                 type="file"
+                                                id="label"
                                                 name="pic"
                                                 accept="image/*"
                                                 onChange={this.handleOnUploadImg}
