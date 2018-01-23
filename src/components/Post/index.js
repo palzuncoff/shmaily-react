@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import ReactDisqusComments from 'react-disqus-comments';
 import './index.css';
 
+const youTube = 'https://www.youtube.com/embed/';
+
 export class Post extends Component {
     state = {
         areCommentsOpen: false,
@@ -27,12 +29,24 @@ export class Post extends Component {
         />
     );
 
-    renderVideo = video => (
-        <iframe
-            width="420" height="315"
-            src="https://www.youtube.com/embed/2tqvMufXhC0"
-        />
-    );
+    renderVideo = video => {
+        const isYouTube = video.includes('youtube.com');
+        const id = video.split('=').reverse()[0];
+        return (
+            <div>
+                {isYouTube ? <iframe
+                    key={id}
+                    title={`video_${id}`}
+                    width="560"
+                    height="315"
+                    frameBorder="0"
+                    allowFullScreen
+                    allow="encrypted-media"
+                    src={`${youTube}${id}`}
+                /> : <h1>YouTube Only!</h1>}
+            </div>
+        );
+    };
 
     render() {
         const { author, body, coubs, date, id, title, pictures, videos } = this.props;
