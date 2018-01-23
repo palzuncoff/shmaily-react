@@ -1,9 +1,9 @@
+import Textarea  from 'react-textarea-autosize';
 import React, { Component } from 'react';
 import Rodal from 'rodal';
 import 'rodal/lib/rodal.css';
 import './index.css';
 import { db, uploadImg } from '../../utils';
-import Textarea  from 'react-textarea-autosize';
 
 const errorMessage = 'ERROR';
 
@@ -191,8 +191,8 @@ export class CreatePostForm extends Component {
                                 {showUrlInput && this.renderInput()}
                                 {/* List Items */}
                                 <ul className="list-items">
-                                    {picturesPreview.map(piture => (
-                                        <li className="items__li">
+                                    {picturesPreview.map((piture) => (
+                                        <li className="items__li" key={piture.toString()}>
                                             <div className="items__item">
                                                 <span className="items__icon items__icon--img">&nbsp;</span>
                                                 <p className="items__title">{piture}</p>
@@ -202,8 +202,8 @@ export class CreatePostForm extends Component {
                                     ))}
                                 </ul>
                                 <ul className="list-items">
-                                    {videos.map(video => (
-                                        <li className="items__li">
+                                    {videos.map((video) => (
+                                        <li className="items__li" key={video.toString()}>
                                             <div className="items__item">
                                                 <span className="items__icon items__icon--youtube">&nbsp;</span>
                                                 <p className="items__title">{video}</p>
@@ -213,8 +213,8 @@ export class CreatePostForm extends Component {
                                     ))}
                                 </ul>
                                 <ul className="list-items">
-                                    {coubs.map(coub => (
-                                        <li className="items__li">
+                                    {coubs.map((coub) => (
+                                        <li className="items__li" key={coub.toString()}>
                                             <div className="items__item">
                                                 <span className="items__icon items__icon--coub">&nbsp;</span>
                                                 <p className="items__title">{coub}</p>
