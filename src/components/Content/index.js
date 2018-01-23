@@ -23,14 +23,14 @@ export class Content extends Component {
         return (
             <div className="col-9">
                 {posts.map(post => <Post
-                    author={post.author}
+                    author={post.author || 'Shmailer'}
                     body={post.body}
                     coubs={post.coubs}
                     date={post.date}
                     id={post.id}
                     key={post.id}
                     pictures={post.pictures}
-                    title={post.title}
+                    title={post.title || 'Post-Shmost'}
                     topic={post.topic}
                     videos={post.videos}
                 />)}

@@ -14,6 +14,26 @@ export class Post extends Component {
         console.log(comment.text);
     }
 
+    renderPictures = picture => <img src={picture} alt="ERROR"/>;
+
+    renderCoub = coub => (
+        <iframe
+            id="coubVideo"
+            src={coub}
+            allowFullScreen
+            frameBorder="0"
+            width="450"
+            height="360"
+        />
+    );
+
+    renderVideo = video => (
+        <iframe
+            width="420" height="315"
+            src="https://www.youtube.com/embed/2tqvMufXhC0"
+        />
+    );
+
     render() {
         const { author, body, coubs, date, id, title, pictures, videos } = this.props;
         const { areCommentsOpen } = this.state;
@@ -22,7 +42,9 @@ export class Post extends Component {
                 <h1>{title}</h1>
                 <h3>{author}</h3>
                 <h6>{date}</h6>
-                {pictures.length > 0 && <img src={pictures[0]} />}
+                {pictures.map(this.renderPictures)}
+                {coubs.map(this.renderCoub)}
+                {videos.map(this.renderVideo)}
                 {body && <div>{body}</div>}
                 <input
                     type="button"
