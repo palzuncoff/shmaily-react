@@ -20,15 +20,19 @@ export class Content extends Component {
 
     render() {
         const { posts } = this.state;
-        console.log(posts);
         return (
             <div className="col-9">
                 {posts.map(post => <Post
+                    author={post.author}
+                    body={post.body}
+                    coubs={post.coubs}
+                    date={post.date}
+                    id={post.id}
                     key={post.id}
-                    caption={post.caption}
-                    media={post.media}
+                    pictures={post.pictures}
+                    title={post.title}
                     topic={post.topic}
-                    pubDate={post.pubDate}
+                    videos={post.videos}
                 />)}
             </div>
         );

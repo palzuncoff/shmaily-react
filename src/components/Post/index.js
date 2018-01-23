@@ -15,14 +15,15 @@ export class Post extends Component {
     }
 
     render() {
-        const { caption, media, topic, pubDate} = this.props;
+        const { author, body, coubs, date, id, title, pictures, videos } = this.props;
         const { areCommentsOpen } = this.state;
         return (
             <div>
-                <h1>{caption}</h1>
-                <h6>{pubDate}</h6>
-                {media && <img src={media} />}
-                {topic && <div>{topic}</div>}
+                <h1>{title}</h1>
+                <h3>{author}</h3>
+                <h6>{date}</h6>
+                {pictures.length > 0 && <img src={pictures[0]} />}
+                {body && <div>{body}</div>}
                 <input
                     type="button"
                     value={areCommentsOpen ? 'Hide comments' : 'Show comments'}
@@ -42,16 +43,23 @@ export class Post extends Component {
 };
 
 Post.propTypes = {
-    caption: PropTypes.string,
-    media: PropTypes.string,
-    topic: PropTypes.string,
-    pubDate: PropTypes.string.isRequired,
+    author: PropTypes.string,
+    body: PropTypes.string,
+    coubs: PropTypes.array,
+    date: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
+    title: PropTypes.string,
+    pictures: PropTypes.array,
+    videos: PropTypes.array,
 };
 
 Post.defaultProps = {
-    caption: 'Default Caption',
-    media: '',
-    topic: '',
+    author: 'Shmailer',
+    body: '',
+    coubs: [],
+    title: 'Post-Shmost',
+    pictures: [],
+    videos: [],
 
 };
 
