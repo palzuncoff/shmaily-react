@@ -18,16 +18,22 @@ export class Post extends Component {
 
     renderPictures = picture => <img src={picture} alt="ERROR"/>;
 
-    renderCoub = coub => (
-        <iframe
-            id="coubVideo"
-            src={coub}
-            allowFullScreen
-            frameBorder="0"
-            width="450"
-            height="360"
-        />
-    );
+    renderCoub = coub => {
+        const id = coub.split('/').reverse()[0];
+        return (
+            <div>
+                <iframe
+                    key={id}
+                    title={`coub_${id}`}
+                    src={`//coub.com/embed/${id}?muted=false&autostart=false&originalSize=false&startWithHD=false`}
+                    allowFullScreen
+                    frameBorder="0"
+                    width="640"
+                    height="264"
+                />
+            </div>
+        );
+    };
 
     renderVideo = video => {
         const isYouTube = video.includes('youtube.com');
@@ -98,5 +104,3 @@ Post.defaultProps = {
     videos: [],
 
 };
-
-export default Post;
