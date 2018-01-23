@@ -3,6 +3,7 @@ import Rodal from 'rodal';
 import 'rodal/lib/rodal.css';
 import './index.css';
 import { db, uploadImg } from '../../utils';
+import Textarea  from 'react-textarea-autosize';
 
 const errorMessage = 'ERROR';
 
@@ -156,16 +157,19 @@ export class CreatePostForm extends Component {
                                 {/* Buttons */}
                                 <ul className="form-bt">
                                     <li className="form-bt__li">
-                                        <input
-                                            className="form-bt__bt form-bt__bt--img"
-                                            type="file"
-                                            name="pic"
-                                            accept="image/*"
-                                            onChange={this.handleOnUploadImg}
-                                            ref={input => {
-                                                this.fileInput = input;
-                                            }}
-                                        />
+                                        <label className="form-bt__bt form-bt__bt--img">
+                                            Choose file
+                                            <input
+                                                className="form-bt__file-upload"
+                                                type="file"
+                                                name="pic"
+                                                accept="image/*"
+                                                onChange={this.handleOnUploadImg}
+                                                ref={input => {
+                                                    this.fileInput = input;
+                                                }}
+                                            />
+                                        </label>
                                     </li>
                                     <li className="form-bt__li">
                                         <button
@@ -221,15 +225,16 @@ export class CreatePostForm extends Component {
                                 </ul>
                             </li>
                             <li className="form__li">
-                                    <textarea
-                                        placeholder="Description"
-                                        className="form__textarea"
-                                        name="body"
-                                        id="body"
-                                        rows="3"
-                                        value={body}
-                                        onChange={event => this.handleOnChangeTextInput(event, 'body')}
-                                    />
+                                <Textarea
+                                    minRows={3}
+                                    placeholder="Description"
+                                    className="form__textarea"
+                                    name="body"
+                                    id="body"
+                                    rows="3"
+                                    value={body}
+                                    onChange={event => this.handleOnChangeTextInput(event, 'body')}
+                                />
                             </li>
                             <li className="form__li">
                                 <input
