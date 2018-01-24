@@ -16,14 +16,13 @@ export class Post extends Component {
         console.log(comment.text);
     }
 
-    renderPictures = picture => <img src={picture} alt="ERROR"/>;
+    renderPictures = picture => <div key={picture}><img src={picture} alt="ERROR"/></div>;
 
     renderCoub = coub => {
         const id = coub.split('/').reverse()[0];
         return (
-            <div>
+            <div key={id}>
                 <iframe
-                    key={id}
                     title={`coub_${id}`}
                     src={`//coub.com/embed/${id}?muted=false&autostart=false&originalSize=false&startWithHD=false`}
                     allowFullScreen
@@ -39,9 +38,8 @@ export class Post extends Component {
         const isYouTube = video.includes('youtube.com');
         const id = video.split('=').reverse()[0];
         return (
-            <div>
+            <div key={id}>
                 {isYouTube ? <iframe
-                    key={id}
                     title={`video_${id}`}
                     width="560"
                     height="315"
