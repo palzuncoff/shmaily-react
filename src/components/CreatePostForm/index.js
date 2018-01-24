@@ -1,3 +1,4 @@
+import Textarea  from 'react-textarea-autosize';
 import React, { Component } from 'react';
 import Rodal from 'rodal';
 import 'rodal/lib/rodal.css';
@@ -156,16 +157,20 @@ export class CreatePostForm extends Component {
                                 {/* Buttons */}
                                 <ul className="form-bt">
                                     <li className="form-bt__li">
-                                        <input
-                                            className="form-bt__bt form-bt__bt--img"
-                                            type="file"
-                                            name="pic"
-                                            accept="image/*"
-                                            onChange={this.handleOnUploadImg}
-                                            ref={input => {
-                                                this.fileInput = input;
-                                            }}
-                                        />
+                                        <label htmlFor="add-picture" className="form-bt__bt form-bt__bt--img">
+                                            Add picture
+                                            <input
+                                                className="form-bt__file-upload"
+                                                type="file"
+                                                id="add-picture"
+                                                name="pic"
+                                                accept="image/*"
+                                                onChange={this.handleOnUploadImg}
+                                                ref={input => {
+                                                    this.fileInput = input;
+                                                }}
+                                            />
+                                        </label>
                                     </li>
                                     <li className="form-bt__li">
                                         <button
@@ -187,8 +192,8 @@ export class CreatePostForm extends Component {
                                 {showUrlInput && this.renderInput()}
                                 {/* List Items */}
                                 <ul className="list-items">
-                                    {picturesPreview.map(piture => (
-                                        <li className="items__li">
+                                    {picturesPreview.map((piture) => (
+                                        <li className="items__li" key={piture.toString()}>
                                             <div className="items__item">
                                                 <span className="items__icon items__icon--img">&nbsp;</span>
                                                 <p className="items__title">{piture}</p>
@@ -198,8 +203,8 @@ export class CreatePostForm extends Component {
                                     ))}
                                 </ul>
                                 <ul className="list-items">
-                                    {videos.map(video => (
-                                        <li className="items__li">
+                                    {videos.map((video) => (
+                                        <li className="items__li" key={video.toString()}>
                                             <div className="items__item">
                                                 <span className="items__icon items__icon--youtube">&nbsp;</span>
                                                 <p className="items__title">{video}</p>
@@ -209,8 +214,8 @@ export class CreatePostForm extends Component {
                                     ))}
                                 </ul>
                                 <ul className="list-items">
-                                    {coubs.map(coub => (
-                                        <li className="items__li">
+                                    {coubs.map((coub) => (
+                                        <li className="items__li" key={coub.toString()}>
                                             <div className="items__item">
                                                 <span className="items__icon items__icon--coub">&nbsp;</span>
                                                 <p className="items__title">{coub}</p>
@@ -221,15 +226,16 @@ export class CreatePostForm extends Component {
                                 </ul>
                             </li>
                             <li className="form__li">
-                                    <textarea
-                                        placeholder="Description"
-                                        className="form__textarea"
-                                        name="body"
-                                        id="body"
-                                        rows="3"
-                                        value={body}
-                                        onChange={event => this.handleOnChangeTextInput(event, 'body')}
-                                    />
+                                <Textarea
+                                    minRows={3}
+                                    placeholder="Description"
+                                    className="form__textarea"
+                                    name="body"
+                                    id="body"
+                                    rows="3"
+                                    value={body}
+                                    onChange={event => this.handleOnChangeTextInput(event, 'body')}
+                                />
                             </li>
                             <li className="form__li">
                                 <input
