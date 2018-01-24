@@ -46,7 +46,12 @@ export class CreatePostForm extends Component {
     handleShow = () => this.setState({ showModal: true });
 
     handleClose = () => removePictures(this.state.picturesPreview)
-        .then(() => this.setState({ post: clearPost, picturesPreview: [], showModal: false }))
+        .then(() => this.setState({
+            post: clearPost,
+            picturesPreview: [],
+            showModal: false,
+            showUrlInput: false
+        }))
         .catch(() => this.setState({ error: true }));
 
     handleOnChangeTextInput = (event, field) => {
