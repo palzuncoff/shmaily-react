@@ -16,7 +16,7 @@ export class Post extends Component {
         console.log(comment.text);
     }
 
-    renderPictures = picture => <div key={picture}><img src={picture} alt="ERROR"/></div>;
+    renderPictures = picture => <div key={picture.name}><img src={picture.url} alt="ERROR"/></div>;
 
     renderCoub = coub => {
         const id = coub.split('/').reverse()[0];
