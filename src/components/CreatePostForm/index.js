@@ -16,6 +16,15 @@ const clearPost = {
     date: new Date().toDateString(),
 };
 
+const emptyPost = {
+    title: '',
+    pictures: [],
+    body: '',
+    coubs: [],
+    videos: [],
+    author: '',
+};
+
 export class CreatePostForm extends Component {
     state = {
         currentInput: '',
@@ -126,7 +135,7 @@ export class CreatePostForm extends Component {
 
     handleOnSubmit = e => {
         e.preventDefault();
-        const { post } = this.state;
+        const post = { ...this.state.post };
         return db.push({ ...post })
             .then(() => this.setState({ post: clearPost, picturesPreview: [] }))
             .then(() => this.setState({ disableSubmit: true }))
@@ -177,6 +186,14 @@ export class CreatePostForm extends Component {
             post: { title, body, coubs, videos, author, pictures },
             showModal
         } = this.state;
+        const control = JSON.stringify({
+            title,
+            pictures,
+            body,
+            coubs,
+            videos,
+            author,
+        }) === JSON.stringify(emptyPost);
         return (
             <div>
                 <button onClick={this.handleShow}>Create Post</button>
@@ -299,7 +316,7 @@ export class CreatePostForm extends Component {
                                     value="Create Post"
                                     className="form__button-add-post"
                                     onClick={this.handleOnSubmit}
-                                    disabled={disableSubmit}
+                                    disabled={control || disableSubmit}
                                 />
                             </li>
                         </ul>
