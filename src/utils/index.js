@@ -1,5 +1,4 @@
 import firebase from 'firebase';
-import randomString from 'random-string';
 
 const fire = firebase.initializeApp({
     apiKey: process.env.REACT_APP_API_KEY,
@@ -25,8 +24,11 @@ export const metadata = fileName => {
     };
 };
 
-export function uploadImg(picture) {
-    const solt = randomString();
-    const pictureName = `${solt}-${picture.name}`;
-    return storageRef.child(`images/${pictureName}`).put(picture, metadata(picture.name));
+export function uploadImg(picture, pictureName) {
+    return storageRef.child(`images/${pictureName}`).put(picture, metadata(pictureName));
 };
+
+export function removePictures(pictureNames) {
+    return Promise.all(pictureNames.map(pictureName =>
+        storageRef.child(`images/${pictureName}`).delete()));
+}

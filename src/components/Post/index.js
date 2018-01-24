@@ -25,7 +25,7 @@ export class Post extends Component {
             <div key={id} className="post-coub">
                 <Iframe
                     url={`//coub.com/embed/${id}`}
-                    width="480px"
+                    width="640px"
                     height="480px"
                     position="relative"
                     allowFullScreen
