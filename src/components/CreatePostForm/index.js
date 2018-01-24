@@ -1,19 +1,28 @@
 import Textarea  from 'react-textarea-autosize';
 import React, { Component } from 'react';
 import Rodal from 'rodal';
+import randomString from 'random-string';
 import 'rodal/lib/rodal.css';
 import './index.css';
-import { db, uploadImg } from '../../utils';
+import { db, uploadImg, removePictures } from '../../utils';
 
-const errorMessage = 'ERROR';
+const clearPost = {
+    title: '',
+    pictures: [],
+    body: '',
+    coubs: [],
+    videos: [],
+    author: '',
+    date: new Date().toDateString(),
+};
 
 export class CreatePostForm extends Component {
     state = {
-        picturesPreview: [],
-        showUrlInput: false,
         currentInput: '',
         currentCoub: '',
         currentVideo: '',
+        disableSubmit: true,
+        picturesPreview: [],
         post: {
             title: '',
             pictures: [],
@@ -23,31 +32,70 @@ export class CreatePostForm extends Component {
             author: '',
             date: new Date().toDateString(),
         },
+        showUrlInput: false,
         showModal: false,
         error: false,
     };
 
+    componentWillUnmount() {
+        return removePictures(this.state.post.pictures)
+            .then(() => this.setState({ post: clearPost, picturesPreview: [], showModal: false }))
+            .catch(() => this.setState({ error: true }));
+    };
+
     handleShow = () => this.setState({ showModal: true });
 
-    handleClose = () => this.setState({ showModal: false });
+    handleClose = () => removePictures(this.state.picturesPreview)
+        .then(() => this.setState({
+            post: clearPost,
+            picturesPreview: [],
+            showModal: false,
+            showUrlInput: false
+        }))
+        .catch(() => this.setState({ error: true }));
 
     handleOnChangeTextInput = (event, field) => {
         const post = { ...this.state.post };
         post[field] = event.target.value;
-        this.setState({ post });
+        this.setState({ post, disableSubmit: false });
     };
 
     handleOnUploadImg = value => {
         value.preventDefault();
-        const post = { ...this.state.post };
-        const file = this.fileInput.files[0];
-        const picturesPreview = [ ...this.state.picturesPreview ];
-        picturesPreview.push(file.name);
-        this.setState({ picturesPreview });
-        return uploadImg(file)
-            .then(snapshot => post.pictures.push(snapshot.downloadURL))
-            .catch(() => this.setState({ error: true }));
+        if (this.fileInput.files.length > 0) {
+            this.setState({disableSubmit: true});
+            const file = this.fileInput.files[0];
+            const post = { ...this.state.post };
+            const solt = randomString();
+            const pictureName = `${solt}-${file.name}`;
+            const picturesPreview = [ ...this.state.picturesPreview ];
+            picturesPreview.push(pictureName);
+            this.setState({ picturesPreview });
+            return uploadImg(file, pictureName)
+                .then(snapshot => {
+                    post.pictures.push({ url: snapshot.downloadURL, name: pictureName });
+                    return this.setState({ post });
+                })
+                .then(() => this.setState({disableSubmit: false}))
+                .catch(() => this.setState({ error: true }));
+        }
+        return null;
     };
+
+    handleRemovePicture = picture => removePictures([picture])
+        .then(() => {
+            const post = { ...this.state.post };
+            const pictures = post.pictures.filter(pic => pic.name !== picture);
+            post.pictures = pictures;
+
+            return this.setState({ post });
+        })
+        .then(() => {
+            const picturesPreview = this.state.picturesPreview.filter(pic => pic !== picture);
+
+            return this.setState({ picturesPreview });
+        })
+        .catch(() => this.setState({ error: true }));
 
     handleShowUrlInput = currentInput => {
         const { showUrlInput } = this.state;
@@ -56,9 +104,7 @@ export class CreatePostForm extends Component {
 
     handleClearUrlInput = currentInput => this.setState({  showUrlInput: false, [currentInput]: '' });
 
-    handleUrlInput = (event, type) => {
-        this.setState({ [type]:  event.target.value });
-    };
+    handleUrlInput = (event, type) => this.setState({ [type]:  event.target.value, disableSubmit: false });
 
     hangleAddUrl = type => {
         const post = { ...this.state.post };
@@ -74,28 +120,29 @@ export class CreatePostForm extends Component {
             default:
                 return this.setState({ error: true })
         }
+
         return this.setState({ post, [type]: '' })
     };
 
-    handleOnSubmit = (e) => {
-        const { post } = this.state;
+    handleOnSubmit = e => {
         e.preventDefault();
+        const { post } = this.state;
         return db.push({ ...post })
-            .then(() => {
-                const clearPost = {
-                    title: '',
-                    pictures: [],
-                    body: '',
-                    coubs: [],
-                    videos: [],
-                    author: '',
-                    date: new Date().toDateString(),
-                    sistemDate: new Date(),
-                };
-                return this.setState({ post: clearPost, picturesPreview: [] })
-            })
+            .then(() => this.setState({ post: clearPost, picturesPreview: [] }))
+            .then(() => this.setState({ disableSubmit: true }))
             .catch(() => this.setState({ error: true }));
     };
+
+    renderUplodedPictures = picture => (
+        <div key={picture.name}>
+            <button
+                className="items__delete"
+                type="button"
+                onClick={() => this.handleRemovePicture(picture.name)}
+            >x</button>
+            <img src={picture.url} alt="NO PICTURE"/>
+        </div>
+    );
 
     renderInput = () => {
         const { currentInput } = this.state;
@@ -123,11 +170,17 @@ export class CreatePostForm extends Component {
     };
 
     render() {
-        const { showUrlInput, picturesPreview, post: { title, body, coubs, videos, author }, showModal } = this.state;
+        const {
+            disableSubmit,
+            showUrlInput,
+            picturesPreview,
+            post: { title, body, coubs, videos, author, pictures },
+            showModal
+        } = this.state;
         return (
             <div>
                 <button onClick={this.handleShow}>Create Post</button>
-                <Rodal visible={showModal} onClose={() => this.setState({ showModal: false })}>
+                <Rodal visible={showModal} onClose={this.handleClose}>
                     <form action="" className="form">
                         <ul className="form__list">
                             <li className="form__li">
@@ -171,6 +224,9 @@ export class CreatePostForm extends Component {
                                                 }}
                                             />
                                         </label>
+                                        <div>
+                                            {pictures.map(this.renderUplodedPictures)}
+                                        </div>
                                     </li>
                                     <li className="form-bt__li">
                                         <button
@@ -243,6 +299,7 @@ export class CreatePostForm extends Component {
                                     value="Create Post"
                                     className="form__button-add-post"
                                     onClick={this.handleOnSubmit}
+                                    disabled={disableSubmit}
                                 />
                             </li>
                         </ul>
