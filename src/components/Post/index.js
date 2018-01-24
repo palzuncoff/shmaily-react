@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import ReactDisqusComments from 'react-disqus-comments';
 import './index.css';
 
+const youTube = 'https://www.youtube.com/embed/';
+
 export class Post extends Component {
     state = {
         areCommentsOpen: false,
@@ -14,15 +16,56 @@ export class Post extends Component {
         console.log(comment.text);
     }
 
+    renderPictures = picture => <img src={picture} alt="ERROR"/>;
+
+    renderCoub = coub => {
+        const id = coub.split('/').reverse()[0];
+        return (
+            <div>
+                <iframe
+                    key={id}
+                    title={`coub_${id}`}
+                    src={`//coub.com/embed/${id}?muted=false&autostart=false&originalSize=false&startWithHD=false`}
+                    allowFullScreen
+                    frameBorder="0"
+                    width="640"
+                    height="264"
+                />
+            </div>
+        );
+    };
+
+    renderVideo = video => {
+        const isYouTube = video.includes('youtube.com');
+        const id = video.split('=').reverse()[0];
+        return (
+            <div>
+                {isYouTube ? <iframe
+                    key={id}
+                    title={`video_${id}`}
+                    width="560"
+                    height="315"
+                    frameBorder="0"
+                    allowFullScreen
+                    allow="encrypted-media"
+                    src={`${youTube}${id}`}
+                /> : <h1>YouTube Only!</h1>}
+            </div>
+        );
+    };
+
     render() {
-        const { caption, media, topic, pubDate} = this.props;
+        const { author, body, coubs, date, id, title, pictures, videos } = this.props;
         const { areCommentsOpen } = this.state;
         return (
             <div>
-                <h1>{caption}</h1>
-                <h6>{pubDate}</h6>
-                {media && <img src={media} />}
-                {topic && <div>{topic}</div>}
+                <h1>{title}</h1>
+                <h3>{author}</h3>
+                <h6>{date}</h6>
+                {pictures.map(this.renderPictures)}
+                {coubs.map(this.renderCoub)}
+                {videos.map(this.renderVideo)}
+                {body && <div>{body}</div>}
                 <input
                     type="button"
                     value={areCommentsOpen ? 'Hide comments' : 'Show comments'}
@@ -42,17 +85,22 @@ export class Post extends Component {
 };
 
 Post.propTypes = {
-    caption: PropTypes.string,
-    media: PropTypes.string,
-    topic: PropTypes.string,
-    pubDate: PropTypes.string.isRequired,
+    author: PropTypes.string,
+    body: PropTypes.string,
+    coubs: PropTypes.array,
+    date: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
+    title: PropTypes.string,
+    pictures: PropTypes.array,
+    videos: PropTypes.array,
 };
 
 Post.defaultProps = {
-    caption: 'Default Caption',
-    media: '',
-    topic: '',
+    author: 'Shmailer',
+    body: '',
+    coubs: [],
+    title: 'Post-Shmost',
+    pictures: [],
+    videos: [],
 
 };
-
-export default Post;
