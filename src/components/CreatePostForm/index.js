@@ -45,7 +45,10 @@ export class CreatePostForm extends Component {
         picturesPreview.push(file.name);
         this.setState({ picturesPreview });
         return uploadImg(file)
-            .then(snapshot => post.pictures.push(snapshot.downloadURL))
+            .then(snapshot => {
+                post.pictures.push(snapshot.downloadURL);
+                return this.setState({ post });
+            })
             .catch(() => this.setState({ error: true }));
     };
 
@@ -56,9 +59,7 @@ export class CreatePostForm extends Component {
 
     handleClearUrlInput = currentInput => this.setState({  showUrlInput: false, [currentInput]: '' });
 
-    handleUrlInput = (event, type) => {
-        this.setState({ [type]:  event.target.value });
-    };
+    handleUrlInput = (event, type) => this.setState({ [type]:  event.target.value });
 
     hangleAddUrl = type => {
         const post = { ...this.state.post };
@@ -74,6 +75,7 @@ export class CreatePostForm extends Component {
             default:
                 return this.setState({ error: true })
         }
+
         return this.setState({ post, [type]: '' })
     };
 
@@ -90,12 +92,17 @@ export class CreatePostForm extends Component {
                     videos: [],
                     author: '',
                     date: new Date().toDateString(),
-                    sistemDate: new Date(),
                 };
                 return this.setState({ post: clearPost, picturesPreview: [] })
             })
             .catch(() => this.setState({ error: true }));
     };
+
+    renderUplodedPictures = picture => (
+        <span key={picture}>
+            <img src={picture} alt="NO PICTURE"/>
+        </span>
+    );
 
     renderInput = () => {
         const { currentInput } = this.state;
@@ -123,7 +130,7 @@ export class CreatePostForm extends Component {
     };
 
     render() {
-        const { showUrlInput, picturesPreview, post: { title, body, coubs, videos, author }, showModal } = this.state;
+        const { showUrlInput, picturesPreview, post: { title, body, coubs, videos, author, pictures }, showModal } = this.state;
         return (
             <div>
                 <button onClick={this.handleShow}>Create Post</button>
@@ -171,6 +178,9 @@ export class CreatePostForm extends Component {
                                                 }}
                                             />
                                         </label>
+                                        <div>
+                                            {pictures.map(this.renderUplodedPictures)}
+                                        </div>
                                     </li>
                                     <li className="form-bt__li">
                                         <button
