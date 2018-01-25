@@ -70,10 +70,10 @@ export class Post extends Component {
                     onClick={this.handleOpenComments}
                 />
                 {areCommentsOpen && <ReactDisqusComments
-                    shortname="example"
-                    identifier="something-unique-12345"
-                    title="Example Thread"
-                    url="http://www.example.com/example-thread"
+                    shortname="shmaily-1"
+                    identifier={id}
+                    title={title || 'Shmaily-post'}
+                    url={`${process.env.REACT_APP_ROOT_URL}/${id}`}
                     category_id="123456"
                     onNewComment={this.handleNewComment}
                 />}
