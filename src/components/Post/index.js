@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import ReactDisqusComments from 'react-disqus-comments';
 import Iframe from 'react-iframe'
 import './index.css';
-
-const youTube = 'https://www.youtube.com/embed/';
+import { COUB_URL, YOUTUBE_URL } from '../../constants/index';
 
 export class Post extends Component {
     state = {
@@ -13,35 +12,39 @@ export class Post extends Component {
 
     handleOpenComments = () => this.setState({ areCommentsOpen: !this.state.areCommentsOpen });
 
-    handleNewComment(comment) {
-        console.log(comment.text);
-    }
-
-    renderPictures = picture => <div key={picture.name} className="post-picture"><img src={picture.url} alt="ERROR"/></div>;
+    renderPictures = picture => (
+        <div
+            key={picture.name}
+            className="post-picture"
+        >
+            <img src={picture.url} alt="ERROR"/>
+        </div>
+    );
 
     renderCoub = coub => {
+        const isCoub = coub.includes(COUB_URL.ROOT);
         const id = coub.split('/').reverse()[0];
         return (
             <div key={id} className="post-coub">
-                <Iframe
-                    url={`//coub.com/embed/${id}`}
+                {isCoub ? <Iframe
+                    url={`${COUB_URL.EMBED}${id}`}
                     width="480px"
                     height="480px"
                     position="relative"
                     allowFullScreen
-                />
+                /> : <h1>Coub Only!</h1>}
             </div>
         );
     };
 
     renderVideo = video => {
-        const isYouTube = video.includes('youtube.com');
+        const isYouTube = video.includes(YOUTUBE_URL.ROOT);
         const id = video.split('=').reverse()[0];
         return (
             <div key={id} className="post-video">
                 {isYouTube ?
                     <Iframe
-                        url={`${youTube}${id}`}
+                        url={`${YOUTUBE_URL.EMBED}${id}`}
                         width="640px"
                         height="400px"
                         position="relative"
@@ -78,7 +81,6 @@ export class Post extends Component {
                     title={title || 'Shmaily-post'}
                     url={`${process.env.REACT_APP_ROOT_URL}/${id}`}
                     category_id={process.env.REACT_APP_CATEGORY_ID}
-                    onNewComment={this.handleNewComment}
                 />}
             </div>
         );

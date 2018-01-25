@@ -4,7 +4,9 @@ import Rodal from 'rodal';
 import randomString from 'random-string';
 import 'rodal/lib/rodal.css';
 import './index.css';
+import photo from '../../img/icon-image.svg';
 import { db, uploadImg, removePictures } from '../../utils';
+import { YOUTUBE_URL, COUB_URL } from '../../constants/index';
 
 const clearPost = {
     title: '',
@@ -44,6 +46,7 @@ export class CreatePostForm extends Component {
         showUrlInput: false,
         showModal: false,
         error: false,
+        validateLinks : null,
     };
 
     componentWillUnmount() {
@@ -113,24 +116,50 @@ export class CreatePostForm extends Component {
 
     handleClearUrlInput = currentInput => this.setState({  showUrlInput: false, [currentInput]: '' });
 
-    handleUrlInput = (event, type) => this.setState({ [type]:  event.target.value, disableSubmit: false });
+    handleUrlInput = (event, type) => this.setState({
+        [type]:  event.target.value,
+        disableSubmit: false,
+    });
 
-    hangleAddUrl = type => {
+    handleAddUrl = type => {
         const post = { ...this.state.post };
+        const isCoub = this.state[type].includes(COUB_URL.ROOT);
+        const isYouTube = this.state[type].includes(YOUTUBE_URL.ROOT);
         switch (type) {
             case 'currentCoub':
-                post.coubs.push(this.state[type]);
+                if (isCoub) {
+                    post.coubs.push(this.state[type]);
+                    this.setState({ validateLinks: null });
+                } else {
+                    return this.setState({ validateLinks: 'Coub Only!' });
+                }
                 break;
 
             case 'currentVideo':
-                post.videos.push(this.state[type]);
+                if (isYouTube) {
+                    post.videos.push(this.state[type]);
+                    this.setState({ validateLinks: null });
+                } else {
+                    return this.setState({ validateLinks: 'YouTube Only!' });
+                }
                 break;
 
             default:
                 return this.setState({ error: true })
         }
 
-        return this.setState({ post, [type]: '' })
+        return this.setState({ post, [type]: '', showUrlInput: false })
+    };
+
+    handleRemoveUrl = (type, link) => {
+        const post = { ...this.state.post };
+        const index = post[type].indexOf(link);
+        if (index < 0) {
+            return this.setState({ error: true });
+        }
+        post[type].splice(index, 1);
+
+        return this.setState({ post });
     };
 
     handleOnSubmit = e => {
@@ -149,22 +178,22 @@ export class CreatePostForm extends Component {
                 type="button"
                 onClick={() => this.handleRemovePicture(picture.name)}
             >&#10005;</button>
-            <img src={picture.url} alt="NO PICTURE" className="img-preview__img"/>
+            <img src={picture.url} alt={`Baz taking a ${photo}`} className="img-preview__img"/>
         </div>
     );
 
     renderInput = () => {
-        const { currentInput } = this.state;
+        const { currentInput, validateLinks } = this.state;
         return (
             <div className="list-input">
                 <button
                     className="form__input--add"
                     type="button"
-                    onClick={() => this.hangleAddUrl(currentInput)}
+                    onClick={() => this.handleAddUrl(currentInput)}
                 >+</button>
                 <input
                     placeholder="add"
-                    className="form__input"
+                    className={validateLinks ? 'form__input form__input--invalid' : 'form__input'}
                     type="text"
                     value={this.state[currentInput]}
                     onChange={event => this.handleUrlInput(event, currentInput)}
@@ -174,6 +203,7 @@ export class CreatePostForm extends Component {
                     type="button"
                     onClick={() => this.handleClearUrlInput(currentInput)}
                 >x</button>
+                {validateLinks &&  <p>{validateLinks}</p>}
             </div>
         );
     };
@@ -182,7 +212,6 @@ export class CreatePostForm extends Component {
         const {
             disableSubmit,
             showUrlInput,
-            picturesPreview,
             post: { title, body, coubs, videos, author, pictures },
             showModal
         } = this.state;
@@ -197,7 +226,7 @@ export class CreatePostForm extends Component {
         return (
             <div>
                 <button onClick={this.handleShow}>Create Post</button>
-                <Rodal visible={showModal} width="700" onClose={this.handleClose}>
+                <Rodal visible={showModal} width={700} onClose={this.handleClose}>
                     <form action="" className="form">
                         <ul className="form__list">
                             <li className="form__li">
@@ -267,7 +296,9 @@ export class CreatePostForm extends Component {
                                             <div className="items__item">
                                                 <span className="items__icon items__icon--youtube">&nbsp;</span>
                                                 <p className="items__title">{video}</p>
-                                                <button className="items__delete">x</button>
+                                                <button
+                                                    onClick={() => this.handleRemoveUrl('videos', video)}
+                                                    className="items__delete">x</button>
                                             </div>
                                         </li>
                                     ))}
@@ -278,7 +309,9 @@ export class CreatePostForm extends Component {
                                             <div className="items__item">
                                                 <span className="items__icon items__icon--coub">&nbsp;</span>
                                                 <p className="items__title">{coub}</p>
-                                                <button className="items__delete">x</button>
+                                                <button
+                                                    onClick={() => this.handleRemoveUrl('coubs', coub)}
+                                                    className="items__delete">x</button>
                                             </div>
                                         </li>
                                     ))}
