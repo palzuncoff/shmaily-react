@@ -45,6 +45,7 @@ export class CreatePostForm extends Component {
         showUrlInput: false,
         showModal: false,
         error: false,
+        validateLinks : null,
     };
 
     componentWillUnmount() {
@@ -121,13 +122,25 @@ export class CreatePostForm extends Component {
 
     handleAddUrl = type => {
         const post = { ...this.state.post };
+        const isCoub = this.state[type].includes('http://coub.com/view/');
+        const isYouTube = this.state[type].includes('https://www.youtube.com/watch?v=');
         switch (type) {
             case 'currentCoub':
-                post.coubs.push(this.state[type]);
+                if (isCoub) {
+                    post.coubs.push(this.state[type]);
+                    this.setState({ validateLinks: null });
+                } else {
+                    return this.setState({ validateLinks: 'Coub Only!' });
+                }
                 break;
 
             case 'currentVideo':
-                post.videos.push(this.state[type]);
+                if (isYouTube) {
+                    post.videos.push(this.state[type]);
+                    this.setState({ validateLinks: null });
+                } else {
+                    return this.setState({ validateLinks: 'YouTube Only!' });
+                }
                 break;
 
             default:
@@ -169,7 +182,7 @@ export class CreatePostForm extends Component {
     );
 
     renderInput = () => {
-        const { currentInput } = this.state;
+        const { currentInput, validateLinks } = this.state;
         return (
             <div className="list-input">
                 <button
@@ -179,7 +192,7 @@ export class CreatePostForm extends Component {
                 >+</button>
                 <input
                     placeholder="add"
-                    className="form__input"
+                    className={validateLinks ? 'form__input form__input--invalid' : 'form__input'}
                     type="text"
                     value={this.state[currentInput]}
                     onChange={event => this.handleUrlInput(event, currentInput)}
@@ -189,6 +202,7 @@ export class CreatePostForm extends Component {
                     type="button"
                     onClick={() => this.handleClearUrlInput(currentInput)}
                 >x</button>
+                {validateLinks &&  <p>{validateLinks}</p>}
             </div>
         );
     };

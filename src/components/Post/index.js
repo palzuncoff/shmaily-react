@@ -23,16 +23,17 @@ export class Post extends Component {
     );
 
     renderCoub = coub => {
+        const isCoub = coub.includes('coub.com');
         const id = coub.split('/').reverse()[0];
         return (
             <div key={id} className="post-coub">
-                <Iframe
+                {isCoub ? <Iframe
                     url={`//coub.com/embed/${id}`}
                     width="480px"
                     height="480px"
                     position="relative"
                     allowFullScreen
-                />
+                /> : <h1>Coub Only!</h1>}
             </div>
         );
     };
