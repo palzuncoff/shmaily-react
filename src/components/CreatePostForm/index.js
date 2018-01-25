@@ -143,13 +143,13 @@ export class CreatePostForm extends Component {
     };
 
     renderUplodedPictures = picture => (
-        <div key={picture.name}>
+        <div key={picture.name} className="img-preview">
             <button
-                className="items__delete"
+                className="img-preview__delete"
                 type="button"
                 onClick={() => this.handleRemovePicture(picture.name)}
-            >x</button>
-            <img src={picture.url} alt="NO PICTURE"/>
+            >&#10005;</button>
+            <img src={picture.url} alt="NO PICTURE" className="img-preview__img"/>
         </div>
     );
 
@@ -197,12 +197,12 @@ export class CreatePostForm extends Component {
         return (
             <div>
                 <button onClick={this.handleShow}>Create Post</button>
-                <Rodal visible={showModal} onClose={this.handleClose}>
+                <Rodal visible={showModal} width="700" onClose={this.handleClose}>
                     <form action="" className="form">
                         <ul className="form__list">
                             <li className="form__li">
                                 <input
-                                    placeholder="Your Name"
+                                    placeholder="Name"
                                     className="form__input"
                                     type="text"
                                     id="name"
@@ -241,9 +241,6 @@ export class CreatePostForm extends Component {
                                                 }}
                                             />
                                         </label>
-                                        <div>
-                                            {pictures.map(this.renderUplodedPictures)}
-                                        </div>
                                     </li>
                                     <li className="form-bt__li">
                                         <button
@@ -264,17 +261,6 @@ export class CreatePostForm extends Component {
                                 {/* Add Input */}
                                 {showUrlInput && this.renderInput()}
                                 {/* List Items */}
-                                <ul className="list-items">
-                                    {picturesPreview.map((piture) => (
-                                        <li className="items__li" key={piture.toString()}>
-                                            <div className="items__item">
-                                                <span className="items__icon items__icon--img">&nbsp;</span>
-                                                <p className="items__title">{piture}</p>
-                                                <button className="items__delete">x</button>
-                                            </div>
-                                        </li>
-                                    ))}
-                                </ul>
                                 <ul className="list-items">
                                     {videos.map((video) => (
                                         <li className="items__li" key={video.toString()}>
@@ -299,13 +285,18 @@ export class CreatePostForm extends Component {
                                 </ul>
                             </li>
                             <li className="form__li">
+                                <div className="list-preview">
+                                    {pictures.map(this.renderUplodedPictures)}
+                                </div>
+                            </li>
+                            <li className="form__li">
                                 <Textarea
-                                    minRows={3}
-                                    placeholder="Description"
+                                    minRows={5}
+                                    placeholder="Text"
                                     className="form__textarea"
                                     name="body"
                                     id="body"
-                                    rows="3"
+                                    rows="5"
                                     value={body}
                                     onChange={event => this.handleOnChangeTextInput(event, 'body')}
                                 />
