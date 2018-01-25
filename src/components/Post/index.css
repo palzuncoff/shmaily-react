@@ -1,0 +1,57 @@
+.cf {
+    display: flow-root;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+}
+
+.cf:before,
+.cf:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.post-info {
+    display: flex;
+    align-items: baseline;
+    padding: 10px 0;
+}
+
+.post-info__author {
+    font-size: 14px;
+    color: #333;
+}
+
+.post-info__date {
+    padding-left: 10px;
+    color: #ccc;
+    font-size: 12px;
+}
+
+.post-title {
+    font-size: 16px;
+    color: #999;
+}
+
+.post-picture,
+.post-coub,
+.post-video,
+.post-description {
+    padding-bottom: 10px;
+}
+
+.post-description {
+    color: #444;
+    font-size: 14px;
+    line-height: 2;
+}
+
+.post-comments-bt {
+    font-size: 14px;
+    outline: none;
+    border: none;
+    color: #888;
+    cursor: pointer;
+    text-decoration: underline;
+}

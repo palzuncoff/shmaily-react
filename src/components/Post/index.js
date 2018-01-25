@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactDisqusComments from 'react-disqus-comments';
+import Iframe from 'react-iframe'
 import './index.css';
 
 const youTube = 'https://www.youtube.com/embed/';
@@ -16,19 +17,18 @@ export class Post extends Component {
         console.log(comment.text);
     }
 
-    renderPictures = picture => <div key={picture.name}><img src={picture.url} alt="ERROR"/></div>;
+    renderPictures = picture => <div key={picture.name} className="post-picture"><img src={picture.url} alt="ERROR"/></div>;
 
     renderCoub = coub => {
         const id = coub.split('/').reverse()[0];
         return (
-            <div key={id}>
-                <iframe
-                    title={`coub_${id}`}
-                    src={`//coub.com/embed/${id}?muted=false&autostart=false&originalSize=false&startWithHD=false`}
+            <div key={id} className="post-coub">
+                <Iframe
+                    url={`//coub.com/embed/${id}`}
+                    width="480px"
+                    height="480px"
+                    position="relative"
                     allowFullScreen
-                    frameBorder="0"
-                    width="640"
-                    height="264"
                 />
             </div>
         );
@@ -38,16 +38,16 @@ export class Post extends Component {
         const isYouTube = video.includes('youtube.com');
         const id = video.split('=').reverse()[0];
         return (
-            <div key={id}>
-                {isYouTube ? <iframe
-                    title={`video_${id}`}
-                    width="560"
-                    height="315"
-                    frameBorder="0"
-                    allowFullScreen
-                    allow="encrypted-media"
-                    src={`${youTube}${id}`}
-                /> : <h1>YouTube Only!</h1>}
+            <div key={id} className="post-video">
+                {isYouTube ?
+                    <Iframe
+                        url={`${youTube}${id}`}
+                        width="640px"
+                        height="400px"
+                        position="relative"
+                        allowFullScreen
+                    />
+                    : <h1>YouTube Only!</h1>}
             </div>
         );
     };
@@ -56,15 +56,18 @@ export class Post extends Component {
         const { author, body, coubs, date, id, title, pictures, videos } = this.props;
         const { areCommentsOpen } = this.state;
         return (
-            <div>
-                <h1>{title}</h1>
-                <h3>{author}</h3>
-                <h6>{date}</h6>
+            <div className="cf">
+                <h2 className="post-title">{title}</h2>
+                <div className="post-info">
+                    <h3 className="post-info__author">{author}</h3>
+                    <p className="post-info__date">{date}</p>
+                </div>
                 {pictures.map(this.renderPictures)}
                 {coubs.map(this.renderCoub)}
                 {videos.map(this.renderVideo)}
-                {body && <div>{body}</div>}
+                {body && <div className="post-description">{body}</div>}
                 <input
+                    className="post-comments-bt"
                     type="button"
                     value={areCommentsOpen ? 'Hide comments' : 'Show comments'}
                     onClick={this.handleOpenComments}
