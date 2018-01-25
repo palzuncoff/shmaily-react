@@ -6,6 +6,7 @@ import 'rodal/lib/rodal.css';
 import './index.css';
 import photo from '../../img/icon-image.svg';
 import { db, uploadImg, removePictures } from '../../utils';
+import { YOUTUBE_URL, COUB_URL } from '../../constants/index';
 
 const clearPost = {
     title: '',
@@ -122,8 +123,8 @@ export class CreatePostForm extends Component {
 
     handleAddUrl = type => {
         const post = { ...this.state.post };
-        const isCoub = this.state[type].includes('http://coub.com/view/');
-        const isYouTube = this.state[type].includes('https://www.youtube.com/watch?v=');
+        const isCoub = this.state[type].includes(COUB_URL.ROOT);
+        const isYouTube = this.state[type].includes(YOUTUBE_URL.ROOT);
         switch (type) {
             case 'currentCoub':
                 if (isCoub) {

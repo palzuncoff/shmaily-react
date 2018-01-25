@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import ReactDisqusComments from 'react-disqus-comments';
 import Iframe from 'react-iframe'
 import './index.css';
-
-const youTube = 'https://www.youtube.com/embed/';
+import { COUB_URL, YOUTUBE_URL } from '../../constants/index';
 
 export class Post extends Component {
     state = {
@@ -23,12 +22,12 @@ export class Post extends Component {
     );
 
     renderCoub = coub => {
-        const isCoub = coub.includes('coub.com');
+        const isCoub = coub.includes(COUB_URL.ROOT);
         const id = coub.split('/').reverse()[0];
         return (
             <div key={id} className="post-coub">
                 {isCoub ? <Iframe
-                    url={`//coub.com/embed/${id}`}
+                    url={`${COUB_URL.EMBED}${id}`}
                     width="480px"
                     height="480px"
                     position="relative"
@@ -39,13 +38,13 @@ export class Post extends Component {
     };
 
     renderVideo = video => {
-        const isYouTube = video.includes('youtube.com');
+        const isYouTube = video.includes(YOUTUBE_URL.ROOT);
         const id = video.split('=').reverse()[0];
         return (
             <div key={id} className="post-video">
                 {isYouTube ?
                     <Iframe
-                        url={`${youTube}${id}`}
+                        url={`${YOUTUBE_URL.EMBED}${id}`}
                         width="640px"
                         height="400px"
                         position="relative"
