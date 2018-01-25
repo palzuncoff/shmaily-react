@@ -13,11 +13,14 @@ export class Post extends Component {
 
     handleOpenComments = () => this.setState({ areCommentsOpen: !this.state.areCommentsOpen });
 
-    handleNewComment(comment) {
-        console.log(comment.text);
-    }
-
-    renderPictures = picture => <div key={picture.name} className="post-picture"><img src={picture.url} alt="ERROR"/></div>;
+    renderPictures = picture => (
+        <div
+            key={picture.name}
+            className="post-picture"
+        >
+            <img src={picture.url} alt="ERROR"/>
+        </div>
+    );
 
     renderCoub = coub => {
         const id = coub.split('/').reverse()[0];
@@ -78,7 +81,6 @@ export class Post extends Component {
                     title={title || 'Shmaily-post'}
                     url={`${process.env.REACT_APP_ROOT_URL}/${id}`}
                     category_id={process.env.REACT_APP_CATEGORY_ID}
-                    onNewComment={this.handleNewComment}
                 />}
             </div>
         );
