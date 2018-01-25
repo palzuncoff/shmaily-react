@@ -86,7 +86,16 @@
 }
 
 .form__input--invalid {
-    background: red;
+    background-image: repeating-linear-gradient( -45deg, #ffd5d5, #ffe0e0 11px, #eee 10px, #eee 20px);
+}
+
+.form__input--invalid-info {
+    padding: 10px;
+    margin: 10px 0;
+    border: 2px solid #ccc;
+    display: inline-block;
+    border-radius: 3px;
+    color: #333;
 }
 
 .form__button-add-file {

@@ -203,7 +203,7 @@ export class CreatePostForm extends Component {
                     type="button"
                     onClick={() => this.handleClearUrlInput(currentInput)}
                 >x</button>
-                {validateLinks &&  <p>{validateLinks}</p>}
+                {validateLinks &&  <p className="form__input--invalid-info">{validateLinks}</p>}
             </div>
         );
     };
