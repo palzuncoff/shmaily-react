@@ -4,6 +4,7 @@ import Rodal from 'rodal';
 import randomString from 'random-string';
 import 'rodal/lib/rodal.css';
 import './index.css';
+import photo from '../../img/icon-image.svg';
 import { db, uploadImg, removePictures } from '../../utils';
 
 const clearPost = {
@@ -149,7 +150,7 @@ export class CreatePostForm extends Component {
                 type="button"
                 onClick={() => this.handleRemovePicture(picture.name)}
             >&#10005;</button>
-            <img src={picture.url} alt="NO PICTURE" className="img-preview__img"/>
+            <img src={picture.url} alt={`Baz taking a ${photo}`} className="img-preview__img"/>
         </div>
     );
 
@@ -182,7 +183,6 @@ export class CreatePostForm extends Component {
         const {
             disableSubmit,
             showUrlInput,
-            picturesPreview,
             post: { title, body, coubs, videos, author, pictures },
             showModal
         } = this.state;
@@ -197,7 +197,7 @@ export class CreatePostForm extends Component {
         return (
             <div>
                 <button onClick={this.handleShow}>Create Post</button>
-                <Rodal visible={showModal} width="700" onClose={this.handleClose}>
+                <Rodal visible={showModal} width={700} onClose={this.handleClose}>
                     <form action="" className="form">
                         <ul className="form__list">
                             <li className="form__li">
