@@ -1,5 +1,7 @@
 import firebase from 'firebase';
 
+require('firebase/firestore');
+
 const fire = firebase.initializeApp({
     apiKey: process.env.REACT_APP_API_KEY,
     authDomain: process.env.REACT_APP_AUTH_DOMAIN,
@@ -9,11 +11,11 @@ const fire = firebase.initializeApp({
     messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
 });
 
-export const db = fire.database().ref('posts/');
+export const db = fire.firestore().collection('posts');
 
 export const storageRef = fire.storage().ref();
 
-export const getPostList = db.orderByKey().limitToLast(10);
+// export const getPostList = db.orderByKey().limitToLast(10);
 
 export const getPost = postId => fire.database().ref(`posts/${postId}`);
 
@@ -32,3 +34,7 @@ export function removePictures(pictureNames) {
     return Promise.all(pictureNames.map(pictureName =>
         storageRef.child(`images/${pictureName}`).delete()));
 }
+
+export function paginatePostList (lastPost) {
+    return db.orderByKey().startAfter(lastPost).limitToLast(10);
+};

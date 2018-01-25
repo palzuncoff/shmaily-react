@@ -165,7 +165,7 @@ export class CreatePostForm extends Component {
     handleOnSubmit = e => {
         e.preventDefault();
         const post = { ...this.state.post };
-        return db.push({ ...post })
+        return db.add({ ...post })
             .then(() => this.setState({ post: clearPost, picturesPreview: [] }))
             .then(() => this.setState({ disableSubmit: true }))
             .catch(() => this.setState({ error: true }));
