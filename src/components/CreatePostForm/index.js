@@ -114,7 +114,10 @@ export class CreatePostForm extends Component {
 
     handleClearUrlInput = currentInput => this.setState({  showUrlInput: false, [currentInput]: '' });
 
-    handleUrlInput = (event, type) => this.setState({ [type]:  event.target.value, disableSubmit: false });
+    handleUrlInput = (event, type) => this.setState({
+        [type]:  event.target.value,
+        disableSubmit: false,
+    });
 
     hangleAddUrl = type => {
         const post = { ...this.state.post };
@@ -131,7 +134,7 @@ export class CreatePostForm extends Component {
                 return this.setState({ error: true })
         }
 
-        return this.setState({ post, [type]: '' })
+        return this.setState({ post, [type]: '', showUrlInput: false })
     };
 
     handleOnSubmit = e => {
