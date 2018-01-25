@@ -119,7 +119,7 @@ export class CreatePostForm extends Component {
         disableSubmit: false,
     });
 
-    hangleAddUrl = type => {
+    handleAddUrl = type => {
         const post = { ...this.state.post };
         switch (type) {
             case 'currentCoub':
@@ -135,6 +135,17 @@ export class CreatePostForm extends Component {
         }
 
         return this.setState({ post, [type]: '', showUrlInput: false })
+    };
+
+    handleRemoveUrl = (type, link) => {
+        const post = { ...this.state.post };
+        const index = post[type].indexOf(link);
+        if (index < 0) {
+            return this.setState({ error: true });
+        }
+        post[type].splice(index, 1);
+
+        return this.setState({ post });
     };
 
     handleOnSubmit = e => {
@@ -164,7 +175,7 @@ export class CreatePostForm extends Component {
                 <button
                     className="form__input--add"
                     type="button"
-                    onClick={() => this.hangleAddUrl(currentInput)}
+                    onClick={() => this.handleAddUrl(currentInput)}
                 >+</button>
                 <input
                     placeholder="add"
@@ -270,7 +281,9 @@ export class CreatePostForm extends Component {
                                             <div className="items__item">
                                                 <span className="items__icon items__icon--youtube">&nbsp;</span>
                                                 <p className="items__title">{video}</p>
-                                                <button className="items__delete">x</button>
+                                                <button
+                                                    onClick={() => this.handleRemoveUrl('videos', video)}
+                                                    className="items__delete">x</button>
                                             </div>
                                         </li>
                                     ))}
@@ -281,7 +294,9 @@ export class CreatePostForm extends Component {
                                             <div className="items__item">
                                                 <span className="items__icon items__icon--coub">&nbsp;</span>
                                                 <p className="items__title">{coub}</p>
-                                                <button className="items__delete">x</button>
+                                                <button
+                                                    onClick={() => this.handleRemoveUrl('coubs', coub)}
+                                                    className="items__delete">x</button>
                                             </div>
                                         </li>
                                     ))}
