@@ -10,6 +10,11 @@ export class Post extends Component {
         areCommentsOpen: false,
     };
 
+    handleClick(event) {
+        const el = event.target;
+        el.classList.toggle('img-size');
+    }
+
     handleOpenComments = () => this.setState({ areCommentsOpen: !this.state.areCommentsOpen });
 
     renderPictures = picture => (
@@ -17,7 +22,7 @@ export class Post extends Component {
             key={picture.name}
             className="post-picture"
         >
-            <img src={picture.url} alt="ERROR"/>
+            <img src={picture.url} alt="ERROR" onClick={this.handleClick} />
         </div>
     );
 
