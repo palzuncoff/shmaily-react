@@ -33,6 +33,7 @@ export class CreatePostForm extends Component {
         currentCoub: '',
         currentVideo: '',
         disableSubmit: true,
+        formOverlay: false,
         picturesPreview: [],
         post: {
             title: '',
@@ -155,12 +156,15 @@ export class CreatePostForm extends Component {
     };
 
     handleOnSubmit = e => {
+
         e.preventDefault();
         const post = { ...this.state.post };
-        return db.push({ ...post })
+        this.setState({ formOverlay: true });
+        db.push({ ...post })
             .then(() => this.setState({ post: clearPost, picturesPreview: [] }))
             .then(() => this.setState({ disableSubmit: true }))
             .catch(() => this.setState({ error: true }));
+        this.setState({ formOverlay: false });
     };
 
     renderUplodedPictures = picture => (
@@ -217,6 +221,12 @@ export class CreatePostForm extends Component {
         return (
             <div>
                 <Rodal visible width={700} onClose={this.handleClose}>
+                    <div className={`form-overlay ${this.state.formOverlay}`} >
+                        <div className="form-overlay__progressbar">
+                            <span className="form-overlay__loading" />
+                            <div className="form-overlay__load">loading</div>
+                        </div>
+                    </div>
                     <form action="" className="form">
                         <ul className="form__list">
                             <li className="form__li">
