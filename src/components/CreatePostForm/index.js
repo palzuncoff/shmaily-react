@@ -46,26 +46,18 @@ export class CreatePostForm extends Component {
             systemDate: new Date,
         },
         showUrlInput: false,
-        showModal: false,
         error: false,
         validateLinks : null,
     };
 
     componentWillUnmount() {
         return removePictures(this.state.post.pictures)
-            .then(() => this.setState({ post: clearPost, picturesPreview: [], showModal: false }))
+            .then(() => this.setState({ post: clearPost, picturesPreview: [] }))
             .catch(() => this.setState({ error: true }));
     };
 
-    handleShow = () => this.setState({ showModal: true });
-
     handleClose = () => removePictures(this.state.picturesPreview)
-        .then(() => this.setState({
-            post: clearPost,
-            picturesPreview: [],
-            showModal: false,
-            showUrlInput: false
-        }))
+        .then(() => this.props.history.push('/'))
         .catch(() => this.setState({ error: true }));
 
     handleOnChangeTextInput = (event, field) => {
@@ -215,7 +207,6 @@ export class CreatePostForm extends Component {
             disableSubmit,
             showUrlInput,
             post: { title, body, coubs, videos, author, pictures },
-            showModal
         } = this.state;
         const control = JSON.stringify({
             title,
@@ -227,8 +218,7 @@ export class CreatePostForm extends Component {
         }) === JSON.stringify(emptyPost);
         return (
             <div>
-                <button onClick={this.handleShow}>Create Post</button>
-                <Rodal visible={showModal} width={700} onClose={this.handleClose}>
+                <Rodal visible width={700} onClose={this.handleClose}>
                     <form action="" className="form">
                         <ul className="form__list">
                             <li className="form__li">
