@@ -7,32 +7,61 @@ import { getPostList, paginatePostList } from '../../utils';
 export class Content extends Component {
     state = {
         posts: [],
+        last: null,
+        empty: false,
         error: false,
     };
 
     componentWillMount(){
+        console.log('Start')
         return getPostList.get()
             .then(snapshots => {
-                snapshots.forEach(doc => {
+                const lastOne = snapshots.docs[snapshots.docs.length-1]
+                this.setState({ last: lastOne.data().createdAt});
+                return snapshots.forEach(doc => {
                     const post = {
                         id: doc.id,
                         ...doc.data()
                     };
+                    console.log('finish')
                     this.setState({ posts: [post].concat(this.state.posts) });
                 })
 
             })
-            .catch(error => console.log("Error getting documents: ", error))
+            .catch(error => {
+                if (error.message === 'lastOne is undefined') {
+                    return this.setState({ empty: true });
+                }
+                return this.setState({ error: true })
+            })
     };
 
-    handleLoadMore = lastPost => {
-        paginatePostList(lastPost).on('child_added', snapshot => {
-            const post = {
-                id: snapshot.key,
-                ...snapshot.val(),
-            };
-            return this.setState({ posts: [post].concat(this.state.posts) });
-        });
+    handleLoadMore = () => {
+        const { last, empty, posts } = this.state;
+        if (posts.length > 9 && !empty) {
+            return paginatePostList(last).get()
+                .then(snapshots => {
+                    const lastOne = snapshots.docs[snapshots.docs.length - 1];
+                    const nextPosts = [];
+                    snapshots.forEach(doc => {
+                        nextPosts.push({
+                            id: doc.id,
+                            ...doc.data()
+                        });
+                    });
+                    this.setState({
+                        posts: [...posts, ...nextPosts],
+                        last: lastOne.data().createdAt,
+                    })
+                })
+                .catch(error => {
+                    if (error.message === 'lastOne is undefined') {
+                        return this.setState({ empty: true });
+                    }
+                    this.setState({ error: true })
+                })
+        }
+        return null;
     };
 
     render() {
@@ -42,8 +71,8 @@ export class Content extends Component {
             <div className="col-9">
                 <InfiniteScroll
                     pageStart={0}
-                    loadMore={() => {}}
-                    hasMore={true || false}
+                    loadMore={this.handleLoadMore}
+                    hasMore
                     loader={<div className="loader" key={0}>Loading ...</div>}
                 >
                     {posts.map(post => <Post
