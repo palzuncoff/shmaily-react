@@ -16,6 +16,7 @@ const clearPost = {
     videos: [],
     author: '',
     date: new Date().toDateString(),
+    systemDate: new Date,
 };
 
 const emptyPost = {
@@ -42,6 +43,7 @@ export class CreatePostForm extends Component {
             videos: [],
             author: '',
             date: new Date().toDateString(),
+            systemDate: new Date,
         },
         showUrlInput: false,
         showModal: false,

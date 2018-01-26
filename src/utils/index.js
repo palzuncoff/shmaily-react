@@ -15,7 +15,7 @@ export const db = fire.firestore().collection('posts');
 
 export const storageRef = fire.storage().ref();
 
-// export const getPostList = db.orderByKey().limitToLast(10);
+export const getPostList = db.limit(25);
 
 export const getPost = postId => fire.database().ref(`posts/${postId}`);
 
