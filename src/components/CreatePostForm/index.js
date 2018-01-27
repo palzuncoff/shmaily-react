@@ -2,7 +2,6 @@ import Textarea  from 'react-textarea-autosize';
 import React, { Component } from 'react';
 import Rodal from 'rodal';
 import randomString from 'random-string';
-import uuid from 'uuid/v1';
 import 'rodal/lib/rodal.css';
 import './index.css';
 import photo from '../../img/icon-image.svg';
