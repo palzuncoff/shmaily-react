@@ -8,16 +8,6 @@ import photo from '../../img/icon-image.svg';
 import { db, uploadImg, removePictures } from '../../utils';
 import { YOUTUBE_URL, COUB_URL } from '../../constants/index';
 
-const clearPost = {
-    title: '',
-    pictures: [],
-    body: '',
-    coubs: [],
-    videos: [],
-    author: '',
-    date: new Date().toDateString(),
-};
-
 const emptyPost = {
     title: '',
     pictures: [],
@@ -42,6 +32,7 @@ export class CreatePostForm extends Component {
             videos: [],
             author: '',
             date: new Date().toDateString(),
+            createdAt: Date.now(),
         },
         showUrlInput: false,
         error: false,
@@ -49,9 +40,7 @@ export class CreatePostForm extends Component {
     };
 
     componentWillUnmount() {
-        return removePictures(this.state.post.pictures)
-            .then(() => this.setState({ post: clearPost, picturesPreview: [] }))
-            .catch(() => this.setState({ error: true }));
+        return removePictures(this.state.post.pictures);
     };
 
     handleClose = () => removePictures(this.state.picturesPreview)
@@ -157,10 +146,24 @@ export class CreatePostForm extends Component {
     handleOnSubmit = e => {
         e.preventDefault();
         const post = { ...this.state.post };
-        return db.push({ ...post })
-            .then(() => this.setState({ post: clearPost, picturesPreview: [] }))
-            .then(() => this.setState({ disableSubmit: true }))
-            .catch(() => this.setState({ error: true }));
+        db.add({ ...post })
+            .then((res) => {
+                this.setState({
+                    post: {
+                        title: '',
+                        pictures: [],
+                        body: '',
+                        coubs: [],
+                        videos: [],
+                        author: '',
+                        date: new Date().toDateString(),
+                        createdAt: Date.now(),
+                    },
+                    picturesPreview: [],
+                    disableSubmit: true
+                });
+            })
+            .catch(() => { this.setState({ error: true })});
     };
 
     renderUplodedPictures = picture => (
@@ -340,3 +343,5 @@ export class CreatePostForm extends Component {
         );
     };
 };
+
+export default CreatePostForm;

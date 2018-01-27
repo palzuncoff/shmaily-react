@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import './App.css';
-import { Content } from './components/Content';
-import { Header } from './components/Header';
-import { Sidebar } from './components/Sidebar';
-import { CreatePostForm } from './components/CreatePostForm';
+import Content from './components/Content';
+import Header from './components/Header';
+import Sidebar from './components/Sidebar';
+import CreatePostForm from './components/CreatePostForm';
 
 class App extends Component {
     render() {

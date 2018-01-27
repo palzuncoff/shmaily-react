@@ -26,11 +26,11 @@ export class Post extends Component {
         </div>
     );
 
-    renderCoub = coub => {
+    renderCoub = (coub, index) => {
         const isCoub = coub.includes(COUB_URL.ROOT);
         const id = coub.split('/').reverse()[0];
         return (
-            <div key={id} className="post-coub">
+            <div key={`${index}-${id}`} className="post-coub">
                 {isCoub ? <Iframe
                     url={`${COUB_URL.EMBED}${id}`}
                     width="480px"
@@ -42,11 +42,11 @@ export class Post extends Component {
         );
     };
 
-    renderVideo = video => {
+    renderVideo = (video, index) => {
         const isYouTube = video.includes(YOUTUBE_URL.ROOT);
         const id = video.split('=').reverse()[0];
         return (
-            <div key={id} className="post-video">
+            <div key={`${index}-${id}`} className="post-video">
                 {isYouTube ?
                     <Iframe
                         url={`${YOUTUBE_URL.EMBED}${id}`}
@@ -112,3 +112,5 @@ Post.defaultProps = {
     videos: [],
 
 };
+
+export default Post;
