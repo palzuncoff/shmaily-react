@@ -216,7 +216,7 @@ export class CreatePostForm extends Component {
         }) === JSON.stringify(emptyPost);
         return (
             <div>
-                <Rodal visible width={700} onClose={this.handleClose}>
+                <Rodal visible onClose={this.handleClose}>
                     <form action="" className="form">
                         <ul className="form__list">
                             <li className="form__li">
