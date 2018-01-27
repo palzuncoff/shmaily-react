@@ -325,7 +325,8 @@
     .form-bt__bt--img,
     .form-bt__bt--youtube,
     .form-bt__bt--coub {
-        padding-left: 0;
+        padding-left: 45px;
         background-position-x: 10px;
+        text-align: left;
     }
 }
