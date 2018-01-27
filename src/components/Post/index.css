@@ -55,3 +55,9 @@
     cursor: pointer;
     text-decoration: underline;
 }
+
+/* img-size */
+
+.img-size {
+    width: 100%;
+}
