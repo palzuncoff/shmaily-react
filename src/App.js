@@ -5,6 +5,7 @@ import Content from './components/Content';
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import CreatePostForm from './components/CreatePostForm';
+import SinglePost from './components/Post/SinglePost'
 
 class App extends Component {
     render() {
@@ -17,6 +18,7 @@ class App extends Component {
                         <section id="container">
                             <div className="wrapper">
                                 <div className="flex-wrap">
+                                    <Route exact path="/:id" component={SinglePost} />
                                     <Content />
                                     <Sidebar />
                                 </div>

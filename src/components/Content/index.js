@@ -82,7 +82,6 @@ export class Content extends Component {
     render() {
         const { posts } = this.state;
         return (
-
             <div className="col-9">
                 <InfiniteScroll
                     pageStart={0}
@@ -91,7 +90,7 @@ export class Content extends Component {
                     loader={<div className="loader" key={0}>Loading ...</div>}
                 >
                     {posts.map(post => <Post
-                        author={post.author || 'Shmailer'}
+                        author={post.author || 'Shmayler'}
                         body={post.body}
                         coubs={post.coubs}
                         date={post.date}

@@ -19,7 +19,7 @@ export const storageRef = fire.storage().ref();
 
 export const getPostList = db.orderBy('createdAt').limit(10);
 
-export const getPost = postId => fire.database().ref(`posts/${postId}`);
+export const getPost = postId => db.doc(postId);
 
 export const metadata = fileName => {
     const extension = fileName.split('.').reverse()[0];
