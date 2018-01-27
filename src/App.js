@@ -14,8 +14,8 @@ class App extends Component {
                 <Router>
                     <div>
                         <Route exact path="/create-post" component={CreatePostForm} />
-                        <Route exact path="/:id" component={SinglePost} />
                         <Header />
+                        <Route exact path="/:id" component={SinglePost} />
                         <section id="container">
                             <div className="wrapper">
                                 <div className="flex-wrap">
