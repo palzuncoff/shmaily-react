@@ -17,7 +17,6 @@ class SinglePost extends Component {
                         id: doc.id,
                         ...doc.data()
                     };
-                    console.log(post)
                     this.setState({ post })
                 } else {
                     this.setState({ error: true })

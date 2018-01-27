@@ -15,10 +15,10 @@ class App extends Component {
                     <div>
                         <Route exact path="/create-post" component={CreatePostForm} />
                         <Header />
-                        <Route exact path="/:id" component={SinglePost} />
                         <section id="container">
                             <div className="wrapper">
                                 <div className="flex-wrap">
+                                    <Route exact path="/:id" component={SinglePost} />
                                     <Content />
                                     <Sidebar />
                                 </div>
