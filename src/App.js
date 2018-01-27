@@ -5,6 +5,7 @@ import Content from './components/Content';
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import CreatePostForm from './components/CreatePostForm';
+import SinglePost from './components/Post/SinglePost'
 
 class App extends Component {
     render() {
@@ -13,6 +14,7 @@ class App extends Component {
                 <Router>
                     <div>
                         <Route exact path="/create-post" component={CreatePostForm} />
+                        <Route exact path="/:id" component={SinglePost} />
                         <Header />
                         <section id="container">
                             <div className="wrapper">
