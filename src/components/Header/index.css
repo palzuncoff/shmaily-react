@@ -1,3 +1,6 @@
+/* Header
+/* ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## */
+
 .header {
   padding: 40px 0;
 }
@@ -34,6 +37,7 @@
   text-align: center;
   text-decoration: none;
   display: inline-block;
+  outline: none;
 }
 
 /* Responsive media queries
@@ -56,4 +60,17 @@
 }
 
 /* Small devices (tablets, 768px and up) */
-@media (max-width: 768px) {}
+@media (max-width: 768px) {
+  .header-list {
+    display: block;
+  }
+  .header-li {
+    padding-left: 0;
+    padding-bottom: 10px;
+  }
+  .header-bt {
+    width: 100%;
+    padding: 10px 0;
+    font-size: 20px;
+  }
+}
