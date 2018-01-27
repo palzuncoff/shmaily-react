@@ -13,7 +13,6 @@ export class Content extends Component {
     };
 
     componentWillMount(){
-        console.log('Start')
         return getPostList.get()
             .then(snapshots => {
                 const lastOne = snapshots.docs[snapshots.docs.length-1]
@@ -23,7 +22,6 @@ export class Content extends Component {
                         id: doc.id,
                         ...doc.data()
                     };
-                    console.log('finish')
                     this.setState({ posts: [post].concat(this.state.posts) });
                 })
 

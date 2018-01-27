@@ -15,7 +15,7 @@ export const db = fire.firestore().collection('posts');
 
 export const storageRef = fire.storage().ref();
 
-export const getPostList = db.orderBy('createdAt', 'desc').limit(10);
+export const getPostList = db.orderBy('createdAt').limit(10);
 
 export const getPost = postId => fire.database().ref(`posts/${postId}`);
 
@@ -36,5 +36,5 @@ export function removePictures(pictureNames) {
 }
 
 export function paginatePostList (lastPost) {
-    return db.orderBy('createdAt', 'desc').startAfter(lastPost).limit(10);
+    return db.orderBy('createdAt').startAfter(lastPost).limit(10);
 };
