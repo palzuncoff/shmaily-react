@@ -107,3 +107,5 @@ Post.defaultProps = {
     videos: [],
 
 };
+
+export default Post;

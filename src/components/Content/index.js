@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import InfiniteScroll from 'react-infinite-scroller';
 import './index.css';
-import { Post } from '../Post';
-import { getPostList, paginatePostList } from '../../utils';
+import Post from '../Post';
+import { paginatePostList, getStart } from '../../utils';
 
 export class Content extends Component {
     state = {
@@ -13,31 +13,49 @@ export class Content extends Component {
     };
 
     componentWillMount(){
-        return getPostList.get()
+        getStart.get()
             .then(snapshots => {
-                const lastOne = snapshots.docs[snapshots.docs.length-1]
-                this.setState({ last: lastOne.data().createdAt});
-                return snapshots.forEach(doc => {
+                snapshots.forEach(doc => {
                     const post = {
                         id: doc.id,
                         ...doc.data()
                     };
-                    this.setState({ posts: [post].concat(this.state.posts) });
-                })
-
+                    this.setState({ posts: [post],  last: post.createdAt });
+                });
             })
+            .then(() => paginatePostList(this.state.last).get()
+                .then(snapshots => {
+                    const lastOne = snapshots.docs[snapshots.docs.length - 1];
+                    const nextPosts = [];
+                    snapshots.forEach(doc => {
+                        nextPosts.push({
+                            id: doc.id,
+                            ...doc.data()
+                        });
+                    });
+                    this.setState({
+                        posts: [...this.state.posts, ...nextPosts],
+                        last: lastOne.data().createdAt,
+                    })
+                })
+                .catch(error => {
+                    if (error.message === 'lastOne is undefined') {
+                        this.setState({ empty: true });
+                    }
+                    this.setState({ error: true })
+                }))
             .catch(error => {
                 if (error.message === 'lastOne is undefined') {
-                    return this.setState({ empty: true });
+                    this.setState({ empty: true });
                 }
-                return this.setState({ error: true })
-            })
+                this.setState({ error: true })
+            });
     };
 
     handleLoadMore = () => {
         const { last, empty, posts } = this.state;
-        if (posts.length > 9 && !empty) {
-            return paginatePostList(last).get()
+        if (posts.length > 10 && !empty) {
+            paginatePostList(last).get()
                 .then(snapshots => {
                     const lastOne = snapshots.docs[snapshots.docs.length - 1];
                     const nextPosts = [];
@@ -59,7 +77,6 @@ export class Content extends Component {
                     this.setState({ error: true })
                 })
         }
-        return null;
     };
 
     render() {
@@ -90,3 +107,5 @@ export class Content extends Component {
         );
     }
 };
+
+export default Content;

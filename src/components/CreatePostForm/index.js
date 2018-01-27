@@ -344,3 +344,5 @@ export class CreatePostForm extends Component {
         );
     };
 };
+
+export default CreatePostForm;
